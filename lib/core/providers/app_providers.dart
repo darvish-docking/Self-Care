@@ -13,15 +13,17 @@ class AppProviders {
 
   static List<SingleChildWidget> providers = [
 
-    ChangeNotifierProvider<UserRoleProviders>(
-      create: (_) => UserRoleProviders(),),
+    // ChangeNotifierProvider<UserRoleProviders>(
+    //   create: (_) => UserRoleProviders(),),
 
-    ChangeNotifierProvider<GenderProviders>(
-      create: (_) => GenderProviders(),),
+    // ChangeNotifierProvider<GenderProviders>(
+    //   create: (_) => GenderProviders(),),
 
-    ChangeNotifierProvider<DobProvider>(create: (_) => DobProvider()),
+    // ChangeNotifierProvider<DobProvider>(create: (_) => DobProvider()),
 
-    ChangeNotifierProvider<LocationProvider>(create: (_) => LocationProvider()),
+    // ChangeNotifierProvider<LocationProvider>(create: (_) => LocationProvider()),
+
+    ChangeNotifierProvider<SignupFormProvider>(create: (_) => SignupFormProvider()),
 
       Provider<AuthRemoteDatasource>(
         create: (_) => AuthRemoteDatasource(Dio()),

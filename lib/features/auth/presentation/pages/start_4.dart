@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/core/theme/app_text_styles.dart';
 import 'package:selfcare_mobileapp/features/auth/domain/entities/user_role.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/pages/signup.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/auth_provider.dart';
 
 class StartPage4 extends StatefulWidget{
@@ -43,7 +44,7 @@ class StartPage4State extends State<StartPage4>{
 
               /// 🔹 Button (Centered)
               Center(
-                child: _buildContinueButton(),
+                child: _buildContinueButton(context),
               ),
 
               const SizedBox(height: 40),
@@ -118,7 +119,7 @@ Widget _buildFormSection(BuildContext context){
     const SizedBox(height: 50),
 
     // birthday
-    Consumer<DobProvider>(
+    Consumer<SignupFormProvider>(
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -168,7 +169,7 @@ Widget _buildFormSection(BuildContext context){
 
       const SizedBox(height: 12),
 
-      Consumer<LocationProvider>(
+      Consumer<SignupFormProvider>(
         builder: (context, loc, child) {
           return TextField(
             readOnly: true,
@@ -234,20 +235,34 @@ Widget _buildFormSection(BuildContext context){
 }
 
 
-Widget _buildContinueButton() {
+Widget _buildContinueButton(context) {
   return SizedBox(
     width: 250,
-    child: ElevatedButton(
-      onPressed: () {
+    child: Consumer<SignupFormProvider>(
+      builder: (context, formProvider, child) {
+        return ElevatedButton(
+          onPressed: () {
+            //gender + dob + location
+
+            print('role: ${formProvider.selectedUserRole.name} - gender: ${formProvider.selectedGender?.label} - DOB: ${formProvider.selectedDob} - Location: ${formProvider.selectedCountry}');
+            if (!formProvider.validateAll()) {
+              print("Validation failed");
+              return;
+            }
+
+            
+            Navigator.push(context, MaterialPageRoute(builder: (_) => SignupPage()));
         
-      },
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-      ),
-      child: const Text("Continue"),
+          },
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          child: const Text("Continue"),
+        );
+      }
     ),
   );
 }
@@ -264,7 +279,7 @@ Widget _genderOption(BuildContext context, Gender gender) {
   // final selectedGender =
   //     context.watch<GenderProviders>().selectedGender;
 
-  final isSelected = context.select<GenderProviders, bool>(
+  final isSelected = context.select<SignupFormProvider, bool>(
   (provider) => provider.selectedGender == gender,
 );
 
@@ -275,7 +290,7 @@ Widget _genderOption(BuildContext context, Gender gender) {
 
   return GestureDetector(
     onTap: () {
-      context.read<GenderProviders>().selectGender(gender);
+      context.read<SignupFormProvider>().selectGender(gender);
     },
     child: Container(
       height: 100,
@@ -376,7 +391,7 @@ required FocusNode? nextFocus, String? errorText} ) {
             ),
           ),
           onChanged: (value) {
-          context.read<DobProvider>().onChanged();
+          context.read<SignupFormProvider>().onChanged();
 
           if (controller.text.length == (hint == "YYYY" ? 4 : 2) && nextFocus != null) {
             FocusScope.of(context).requestFocus(nextFocus);

@@ -22,22 +22,22 @@ class OtpEnterPageState extends State<OtpEnterPage>{
   Widget build(BuildContext context) {
     
     final role =
-    context.read<UserRoleProviders>().selectedUserRole;
+    context.read<SignupFormProvider>().selectedUserRole;
 
-final gender =
-    context.read<GenderProviders>().selectedGender;
+    final gender =
+        context.read<SignupFormProvider>().selectedGender;
 
-// final dob =
-//     context.read<DobProvider>().selectedDob;
+    final dob =
+        context.read<SignupFormProvider>().selectedDob;
 
-// final name = nameController.text;
-// final email = emailController.text;
-// final password = passwordController.text;
+    final location = context.read<SignupFormProvider>().selectedCountry;
+
 
 final registration = RegistrationEntity(
   role: role,
   gender: gender!,
-  dob: dob,
+  dob: dob!,
+  location: location!,
   name: name,
   email: email,
   password: password,

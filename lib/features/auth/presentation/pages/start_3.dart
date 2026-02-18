@@ -27,7 +27,7 @@ class StartPage3State extends State<StartPage3>{
   @override
   Widget build (BuildContext context){
 
-    final userRoleProvider = context.watch<UserRoleProviders>(); // from auth_provider.dart
+    final userRoleProvider = context.watch<SignupFormProvider>(); // from auth_provider.dart
 
     return Scaffold(
       body: SafeArea(
@@ -72,7 +72,7 @@ class StartPage3State extends State<StartPage3>{
                     //   selectedIndex = index;
                     // });
                     context
-                        .read<UserRoleProviders>()
+                        .read<SignupFormProvider>()
                         .userRoleSelection(selectedOption.role);
                   
                   },
@@ -152,7 +152,7 @@ class StartPage3State extends State<StartPage3>{
                 child: ElevatedButton(
                   onPressed: () {
                     // logic
-                    final role = context.read<UserRoleProviders>().selectedUserRole;
+                    final role = context.read<SignupFormProvider>().selectedUserRole;
 
                     // if (role == null) {
                     //   ScaffoldMessenger.of(context).showSnackBar(
