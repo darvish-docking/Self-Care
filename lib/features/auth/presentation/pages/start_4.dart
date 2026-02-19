@@ -251,7 +251,7 @@ Widget _buildContinueButton(context) {
             }
 
             
-            Navigator.push(context, MaterialPageRoute(builder: (_) => SignupPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (_) => SignUpPage()));
         
           },
           style: ElevatedButton.styleFrom(

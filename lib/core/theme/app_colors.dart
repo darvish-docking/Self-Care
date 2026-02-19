@@ -15,7 +15,8 @@ class AppColors {
   static const cardBackground = Color(0xFFEFF2F1);
 
   // States
-  static const error = Color(0xFFE53935);
+  static const error = Color(0xFFFF6C52);
+
   static const success = Color(0xFF4CAF50);
 
   // Borders

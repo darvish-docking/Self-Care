@@ -26,19 +26,20 @@ class OtpEnterPageState extends State<OtpEnterPage>{
 
     final gender =
         context.read<SignupFormProvider>().selectedGender;
-
     final dob =
         context.read<SignupFormProvider>().selectedDob;
-
     final location = context.read<SignupFormProvider>().selectedCountry;
 
+    final fullName = context.read<SignupFormProvider>().fullName;
+    final email = context.read<SignupFormProvider>().email;
+    final password = context.read<SignupFormProvider>().password;
 
 final registration = RegistrationEntity(
   role: role,
   gender: gender!,
   dob: dob!,
   location: location!,
-  name: name,
+  name: fullName,
   email: email,
   password: password,
 );
