@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/providers/otp_provider.dart';
 
 import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/auth/data/datasources/auth_remote_datasource.dart';
@@ -13,17 +14,8 @@ class AppProviders {
 
   static List<SingleChildWidget> providers = [
 
-    // ChangeNotifierProvider<UserRoleProviders>(
-    //   create: (_) => UserRoleProviders(),),
-
-    // ChangeNotifierProvider<GenderProviders>(
-    //   create: (_) => GenderProviders(),),
-
-    // ChangeNotifierProvider<DobProvider>(create: (_) => DobProvider()),
-
-    // ChangeNotifierProvider<LocationProvider>(create: (_) => LocationProvider()),
-
     ChangeNotifierProvider<SignupFormProvider>(create: (_) => SignupFormProvider()),
+    ChangeNotifierProvider<OtpProvider>(create: (_) => OtpProvider()),
 
       Provider<AuthRemoteDatasource>(
         create: (_) => AuthRemoteDatasource(Dio()),

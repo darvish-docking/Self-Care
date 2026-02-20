@@ -166,7 +166,6 @@ Country? _selectedCountry;
   void updateFullName(String value) {
     _fullName = value;
     _fullNameError = _validateFullName(value);
-    print("NAME-Error: $_fullNameError");
     notifyListeners();
   }
 
