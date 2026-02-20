@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/auth/domain/entities/registration_entity.dart';
 import 'package:selfcare_mobileapp/features/auth/domain/usecases/register_user_usercases.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/pages/signin.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/auth_provider.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/otp_provider.dart';
 
@@ -243,16 +244,28 @@ final registration = RegistrationEntity(
                             width: screenWidth * 0.5,
                             height: screenHeight * 0.05,
                             child: ElevatedButton(
-                              onPressed: (){
-                                // to call function in domain/usecases/register_user_usercases.dart
-                          
-                              // final registerUserUseCase =
-                              //   context.read<RegisterUserUseCase>();
-                              // await registerUserUseCase(registration);
+                              onPressed: () async {
+                                if (provider.isVerifying) return;
 
-                                provider.isVerifying
-                                  ? null
-                                  : provider.verifyOtp();
+                                final success = await provider.verifyOtp();
+
+                                if (success && context.mounted) {
+
+                                  // to call function in domain/usecases/register_user_usercases.dart
+                              
+                                  // final registerUserUseCase =
+                                  //   context.read<RegisterUserUseCase>();
+                                  // await registerUserUseCase(registration);
+
+        
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => SignInPage(),
+                                    ),
+                                  );
+                                }
+                                
                               },
                           
                               child: provider.isVerifying
@@ -300,7 +313,7 @@ class OtpInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    final bool hasError =  false;
+    // final bool hasError =  false;
 
     return SizedBox(
       width: width * 0.16,
@@ -323,7 +336,9 @@ class OtpInputField extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
-                color: hasError ? AppColors.error : AppColors.cardBackground,
+                color: 
+                // hasError ? AppColors.error : 
+                AppColors.cardBackground,
                 width: 2,
               ),
             ),

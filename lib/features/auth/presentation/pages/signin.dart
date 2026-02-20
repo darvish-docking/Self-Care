@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/pages/home.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/pages/otp.dart';
-import 'package:selfcare_mobileapp/features/auth/presentation/pages/signin.dart';
-import 'package:selfcare_mobileapp/features/auth/presentation/providers/auth_provider.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/pages/signup.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/providers/signin_provider.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class SignInPage extends StatelessWidget {
+  const SignInPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         const Text(
-                          "Sign Up",
+                          "Sign In",
                           style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
@@ -44,7 +45,7 @@ class SignUpPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 40),
-                        _SignUpForm(),
+                        _SignInForm(),
                         SizedBox(height: 40),
                       ],
                     ),
@@ -62,14 +63,14 @@ class SignUpPage extends StatelessWidget {
 
 
 
-class _SignUpForm extends StatelessWidget {
-  const _SignUpForm();
+class _SignInForm extends StatelessWidget {
+  const _SignInForm();
 
   @override
   Widget build(BuildContext context) {
-    final hasError = context.select<SignupFormProvider, bool>(
-  (p) => p.showTermsError,
-);
+  //   final hasError = context.select<SigninFormProvider, bool>(
+  // (p) => p.showTermsError,
+// );
     return LayoutBuilder(
       builder: (context, constraints) {
         final fieldWidth = constraints.maxWidth * 0.9;
@@ -79,158 +80,65 @@ class _SignUpForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
 
-            // FULL NAME
-            // SizedBox(
-            //   width: fieldWidth,
-            //   child: const Text(
-            //   'Full Name',
-              
-            //   style: const TextStyle(
-            //     fontSize:14,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
-            // ),
-
-            // const SizedBox(height: 8),
-
-            SizedBox(
-              width: fieldWidth,
-              child:  _InputField(
-                label: "Full Name",
-                errorText: context.select<SignupFormProvider, String?>(
-                  (p) => p.fullNameError,
-                ),
-                onChanged:
-                    context.read<SignupFormProvider>().updateFullName,
-              
-              ),
-            ),
-
-            // const SizedBox(height: 20),
-
-            // EMAIL
-            // SizedBox(
-            //   width: fieldWidth,
-            //   child: const Text(
-            //     'Email',
-            //     style: const TextStyle(
-            //       fontSize: 14,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
-
-            // const SizedBox(height: 8),
-
+            
             SizedBox(
               width: fieldWidth,
               child:  _InputField(
                 label: "Email",
-                errorText: context.select<SignupFormProvider, String?>(
+                errorText: context.select<SigninFormProvider, String?>(
                   (p) => p.emailError,
                 ),
                 onChanged:
-                    context.read<SignupFormProvider>().updateEmail,
+                    context.read<SigninFormProvider>().updateEmail,
               ),
             ),
 
-            // const SizedBox(height: 20),
-
-            // PASSWORD
-            // SizedBox(
-            //   width: fieldWidth,
-            //   child: const Text(
-            //     'Password',
-            //     style: const TextStyle(
-            //       fontSize: 14,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
-
-            // const SizedBox(height: 8),
+            
 
             SizedBox(
               width: fieldWidth,
               child:  _InputField(
                 label: "Password",
                 isPassword: true,
-                errorText: context.select<SignupFormProvider, String?>(
+                errorText: context.select<SigninFormProvider, String?>(
                   (p) => p.passwordError,
                 ),
                 onChanged:
-                    context.read<SignupFormProvider>().updatePassword,
+                    context.read<SigninFormProvider>().updatePassword,
               ),
             ),
 
             const SizedBox(height: 16),
 
-            // CHECKBOX (LEFT ALIGNED)
+            // Forgot password (LEFT ALIGNED)
             SizedBox(
               width: fieldWidth,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:  [
-                  Checkbox(
-                    value: context.select<SignupFormProvider, bool>((p) => p.isTermsAccepted),
-                    onChanged: context.read<SignupFormProvider>().toggleTerms,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    visualDensity: VisualDensity.compact,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-                    
-                    side: WidgetStateBorderSide.resolveWith((states){
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: RichText(
+                  textAlign: TextAlign.right,
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: const [
                       
-
-                      if (hasError){
-                        return const BorderSide(color: AppColors.error, width: 1);
-                        }
-                      if (states.contains(WidgetState.selected)){
-                        return const BorderSide(color: AppColors.primary, width: 1);
-                      }
-                      return const BorderSide(color: AppColors.textPrimary, width: 1);
-                    }),
-
-                    fillColor: WidgetStateProperty.resolveWith((states){
-                      if (states.contains(WidgetState.selected)){
-                        return AppColors.primary;
-                      }
-                      // return Colors.transparent;
-                    }),
-                    
-                    checkColor: AppColors.surface,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: const [
-                          TextSpan(text: "I agree with Terms and ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,)),
-                          TextSpan(
-                            text: "Privacy Policy",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              decoration: TextDecoration.underline,
-                              decorationColor: AppColors.primary,
-                              color: AppColors.primary
-                            ),
-                          ),
-                        ],
+                      TextSpan(
+                        text: "Forgot your password?",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          decorationColor: AppColors.primary,
+                          color: AppColors.primary
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
 
             const SizedBox(height: 200),
 
-            // SIGN UP BUTTON (70%)
+            // SIGN in BUTTON (70%)
             SizedBox(
               width: buttonWidth,
               height: 48,
@@ -242,7 +150,7 @@ class _SignUpForm extends StatelessWidget {
                 child: ElevatedButton(
                   
                   onPressed: () async{
-                    final provider = context.read<SignupFormProvider>();
+                    final provider = context.read<SigninFormProvider>();
 
                       final isSuccess = await provider.submit();
 
@@ -250,12 +158,12 @@ class _SignUpForm extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const OtpEnterPage(),
+                            builder: (_) => const HomePage(),
                           ),
                         );
                       }
                   },
-                  child: const Text("Sign Up",
+                  child: const Text("Sign In",
                   style: TextStyle(
                     color: AppColors.surface,
                     fontSize: 15,
@@ -271,16 +179,16 @@ class _SignUpForm extends StatelessWidget {
             // SIGN IN LINK
             RichText(
                     text: TextSpan(
+                      text: "Don't have an account? ",
                       // style: DefaultTextStyle.of(context).style,
-                      text: "Already have account? ",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: AppColors.textSecondary,
-                        ),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: AppColors.textSecondary),
                       children:  [
+                        
                         TextSpan(
-                          text: "Sign In",
+                          text: "Sign Up",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -293,7 +201,7 @@ class _SignUpForm extends StatelessWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => const SignInPage(),
+                                  builder: (_) => SignUpPage(),
                                 ),
                               );
                             },

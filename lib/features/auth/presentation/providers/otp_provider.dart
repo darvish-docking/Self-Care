@@ -57,16 +57,19 @@ class OtpProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> verifyOtp() async {
-    if (!validateOtp()) return;
+  Future<bool> verifyOtp() async {
+    print('inside verifyotp function');
+    if (!validateOtp()) return false;
 
     _isVerifying = true;
     notifyListeners();
 
+    // Your API call here in try-catch block
     await Future.delayed(const Duration(seconds: 2));
 
     _isVerifying = false;
     notifyListeners();
+    return true;
   }
 
   void resendCode() {

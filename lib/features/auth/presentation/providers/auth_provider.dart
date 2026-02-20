@@ -210,6 +210,7 @@ Country? _selectedCountry;
   // ---------------------------
 
   Future<bool> submit() async {
+    print('inside submit button in SIGNUP page');
     _fullNameError = _validateFullName(_fullName);
     _emailError = _validateEmail(_email);
     _passwordError = _validatePassword(_password);
