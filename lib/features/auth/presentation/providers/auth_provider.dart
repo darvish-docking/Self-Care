@@ -47,9 +47,18 @@ final dayController = TextEditingController();
 
   void onChanged() => notifyListeners();
 
-  String? get dayError => _validateDay(_day);
-  String? get monthError => _validateMonth(_month);
-  String? get yearError => _validateYear(_year);
+  String? get dayError {
+  if (!_isSubmitted && dayController.text.isEmpty) return null;
+  return _validateDay(_day);
+}
+  String? get monthError {
+  if (!_isSubmitted && monthController.text.isEmpty) return null;
+  return _validateDay(_month);
+}
+  String? get yearError {
+  if (!_isSubmitted && yearController.text.isEmpty) return null;
+  return _validateDay(_year);
+}
 
 
   DateTime? get selectedDob {
@@ -69,13 +78,13 @@ final dayController = TextEditingController();
   }
 
 
-  bool get isDobValid =>
-      dayError == null &&
-      monthError == null &&
-      yearError == null &&
-      dayController.text.isNotEmpty &&
-      monthController.text.isNotEmpty &&
-      yearController.text.isNotEmpty;
+  // bool get isDobValid =>
+  //     dayError == null &&
+  //     monthError == null &&
+  //     yearError == null &&
+  //     dayController.text.isNotEmpty &&
+  //     monthController.text.isNotEmpty &&
+  //     yearController.text.isNotEmpty;
 
   String? _validateDay(int? d) {
     if (d == null) return null;
@@ -122,15 +131,28 @@ Country? _selectedCountry;
     }
   }
 
+bool _isSubmitted = false;
+bool get isSubmitted => _isSubmitted;
 
 
-  bool validateAll() {
+  bool validateOnContinue() {
     // print('Role: $selectedUserRole - gender: ${selectedGender?.label} - DOB: ${selectedDob} - Location: ${selectedCountry}');
+    _isSubmitted = true;
 
-    return selectedGender != null &&
-           selectedDob != null &&
-           selectedCountry != null &&
-           selectedUserRole != null;
+    validateCountry();   // triggers country error if null
+    notifyListeners();
+
+    if (selectedDob == null){
+      _validateDay(_day);
+      _validateMonth(_month);
+      _validateYear(_year);
+
+      // notifyListeners();
+    }
+
+
+    return selectedDob != null &&
+           selectedCountry != null ;
   }
 
 

@@ -171,57 +171,61 @@ Widget _buildFormSection(BuildContext context){
 
       Consumer<SignupFormProvider>(
         builder: (context, loc, child) {
-          return TextField(
-            readOnly: true,
-            onTap: () {
-              showCountryPicker(
-                context: context,
-                showPhoneCode: false,
-                onSelect: (Country country) {
-                  loc.setCountry(country);
+          return Column(
+            children: [
+              TextField(
+                readOnly: true,
+                onTap: () {
+                  showCountryPicker(
+                    context: context,
+                    showPhoneCode: false,
+                    onSelect: (Country country) {
+                      loc.setCountry(country);
+                    },
+                  );
                 },
-              );
-            },
-            decoration: InputDecoration(
-              hintText: "Enter your city",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              errorText: loc.countryError,
-
-              prefixIcon: loc.selectedCountry != null
-                  ? Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: CircleAvatar(
-                        radius: 16,
-                        backgroundColor: AppColors.background,
-                        child: Text(
-                          loc.selectedCountry!.flagEmoji,
-                          style: const TextStyle(fontSize: 20),
+                decoration: InputDecoration(
+                  hintText: "Enter your city",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  errorText: loc.countryError,
+              
+                  prefixIcon: loc.selectedCountry != null
+                      ? Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: CircleAvatar(
+                            radius: 16,
+                            backgroundColor: AppColors.background,
+                            child: Text(
+                              loc.selectedCountry!.flagEmoji,
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        )
+                      : const Icon(Icons.public),
+              
+                  suffixIcon: 
+                  Padding(
+                    padding: const EdgeInsets.only(right:4.0),
+                    child: 
+                    Container(
+                      
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(7),
+                          bottomRight: Radius.circular(7),
                         ),
                       ),
-                    )
-                  : const Icon(Icons.public),
-
-              suffixIcon: 
-              Padding(
-                padding: const EdgeInsets.only(right:4.0),
-                child: 
-                Container(
-                  
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(7),
-                      bottomRight: Radius.circular(7),
-                    ),
+                      child: const Icon(Icons.arrow_drop_down)),
                   ),
-                  child: const Icon(Icons.arrow_drop_down)),
+                ),
+                controller: TextEditingController(
+                  text: loc.selectedCountry?.name ?? "",
+                ),
               ),
-            ),
-            controller: TextEditingController(
-              text: loc.selectedCountry?.name ?? "",
-            ),
+            ],
           );
         }
       ),
@@ -245,7 +249,7 @@ Widget _buildContinueButton(context) {
             //gender + dob + location
 
             print('role: ${formProvider.selectedUserRole.name} - gender: ${formProvider.selectedGender?.label} - DOB: ${formProvider.selectedDob} - Location: ${formProvider.selectedCountry}');
-            if (!formProvider.validateAll()) {
+            if (!formProvider.validateOnContinue()) {
               print("Validation failed");
               return;
             }
@@ -399,6 +403,12 @@ required FocusNode? nextFocus, String? errorText} ) {
             },
         ),
       ),
+      // Text(errorText,
+      // style: TextStyle(
+      //   color: AppColors.error,
+      //   fontSize: 15.0
+      //   ),
+      //   textAlign: TextAlign.left,),
       
     ],
   );
