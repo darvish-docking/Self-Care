@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
-import 'package:selfcare_mobileapp/features/auth/presentation/pages/home.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/pages/otp.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/pages/signup.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/signin_provider.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/pages/home.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});

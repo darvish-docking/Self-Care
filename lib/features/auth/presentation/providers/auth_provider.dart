@@ -53,11 +53,11 @@ final dayController = TextEditingController();
 }
   String? get monthError {
   if (!_isSubmitted && monthController.text.isEmpty) return null;
-  return _validateDay(_month);
+  return _validateMonth(_month);
 }
   String? get yearError {
   if (!_isSubmitted && yearController.text.isEmpty) return null;
-  return _validateDay(_year);
+  return _validateYear(_year);
 }
 
 

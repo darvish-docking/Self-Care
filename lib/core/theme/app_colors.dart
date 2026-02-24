@@ -14,6 +14,11 @@ class AppColors {
   static const surface = Color(0xFFFFFFFF);
   static const cardBackground = Color(0xFFEFF2F1);
 
+  //
+  static const doctor = Color(0xFF6295E2);
+  static const bloodTest = Color(0xFFFF6C52);
+
+
   // States
   static const error = Color(0xFFFF6C52);
 
