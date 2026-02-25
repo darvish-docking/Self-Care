@@ -265,14 +265,15 @@ class RecentSection extends StatelessWidget {
 
   final List<DoctorConsultation> recentConsultations = [
   DoctorConsultation(
-    name: "Dr. Floyd Miles",
-    imagePath: "assets/images/Dr.Floyd Miles.png",
+    name: "Dr. Eleanor Pena",
+    description: "Dr. Eleanor Pena is a senior cardiologist with more than 8 years of experience. Specialized in treating diseases and abnormalities with infants and babies.",
+    imagePath: "assets/images/Dr.Eleanor Pena.png",
     department: "Pediatrics",
-    consultationDate: "12 Feb 2026",
-    consultationTime: "10:30 AM",
-    fee: 50,
+    consultationDate: "23 MAr 2026",
+    consultationTime: "16:00",
+    fee: 80,
     rating: 4.8,
-    reviews: 222,
+    reviews: 220,
   ),
    // 
   

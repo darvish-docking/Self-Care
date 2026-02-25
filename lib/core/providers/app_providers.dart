@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/otp_provider.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/signin_provider.dart';
+import 'package:selfcare_mobileapp/features/enquiry/presentation/providers/bookAppointment-provider.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/providers/home-provider.dart';
 
 import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/auth/data/datasources/auth_remote_datasource.dart';
@@ -19,6 +21,10 @@ class AppProviders {
     ChangeNotifierProvider<SigninFormProvider>(create: (_) => SigninFormProvider()),
   
     ChangeNotifierProvider<OtpProvider>(create: (_) => OtpProvider()),
+
+    ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
+
+    ChangeNotifierProvider<AppointmentProvider>(create: (_) =>AppointmentProvider()),
 
       Provider<AuthRemoteDatasource>(
         create: (_) => AuthRemoteDatasource(Dio()),
