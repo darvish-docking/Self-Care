@@ -4,6 +4,7 @@ import 'package:provider/single_child_widget.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/otp_provider.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/signin_provider.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/providers/bookAppointment-provider.dart';
+import 'package:selfcare_mobileapp/features/enquiry/presentation/providers/payment_provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/providers/data_provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/providers/home-provider.dart';
 
@@ -28,6 +29,8 @@ class AppProviders {
     ChangeNotifierProvider<AppointmentProvider>(create: (_) =>AppointmentProvider()),
 
     ChangeNotifierProvider<DataProvider>(create: (_) =>DataProvider()),
+
+    ChangeNotifierProvider<PaymentProvider>(create: (_) =>PaymentProvider()),
 
 
     

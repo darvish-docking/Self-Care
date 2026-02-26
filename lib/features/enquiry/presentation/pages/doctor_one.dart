@@ -480,7 +480,7 @@ Future<void> openGoogleMaps(String address) async {
                     /// Make appointment Container
                     Material(
                       child: InkWell(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ThankyouScreen())),
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ThankyouScreen(doctor:widget.doctor))),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 14),
