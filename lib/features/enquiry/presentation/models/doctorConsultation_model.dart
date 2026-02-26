@@ -8,6 +8,7 @@ class DoctorConsultation {
   final int fee;
   final double rating;
   final int reviews;
+  
 
   DoctorConsultation({
     required this.name,

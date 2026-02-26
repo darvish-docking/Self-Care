@@ -5,8 +5,10 @@ import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/auth_provider.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/models/doctorConsultation_model.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/book_appointment.dart';
+import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/doctors.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/category_models.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/providers/data_provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/providers/home-provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/widgets/bottom_nav_bar.dart';
 
@@ -608,38 +610,7 @@ class CategoriesSection extends StatelessWidget {
 
 }
 
-// class PopularDoctors {
-//   static const pediatrics = "assets/images/Dr.Floyd Miles.png";
-//   static const nephrologist = "assets/images/Dr.Marvin Mckinney.png";
-//   static const neurologist = "assets/images/Dr.Floyd Mckinney.png";
-//   static const urologist = "assets/images/Dr.Marvin Miles.png";
-//   static const dentist = "assets/images/Dr.Miles Mckinney.png";
 
-// }
-
-final doctors = [
-  DoctorModel(
-    photo: 'assets/images/Dr.Floyd Miles.png',
-    name: "Dr. Floyd Miles",
-    department: "Pediatrics",
-    rating: 4.8,
-    reviews: 222,
-  ),
-  DoctorModel(
-    photo: 'assets/images/Dr.Marvin Mckinney.png',
-    name: "Dr.Marvin Mckinney",
-    department: "Nephrologist",
-    rating: 4.1,
-    reviews: 22,
-  ),
-  DoctorModel(
-    photo: 'assets/images/Dr.Floyd Miles.png',
-    name: "Dr. Peter Miles",
-    department: "Urologist",
-    rating: 3.3,
-    reviews: 400,
-  ),
-];
 
 
 class PopularDoctorsSection extends StatelessWidget {
@@ -658,7 +629,9 @@ class PopularDoctorsSection extends StatelessWidget {
                   fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
             const Spacer(),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => DoctorPage()));
+                },
                 child: const Text("See All",
                 style: TextStyle(
                   fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary)))
@@ -666,16 +639,20 @@ class PopularDoctorsSection extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         
-        ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(), // important if inside another scroll
-          itemCount: doctors.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: _buildDoctorCard(doctors[index]),
+        Consumer<DataProvider>(
+          builder: (context, doctor, _) {
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(), // important if inside another scroll
+              itemCount: doctor.dLength,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _buildDoctorCard(doctor.doctors[index]),
+                );
+              },
             );
-          },
+          }
         ),
       
       ],
@@ -683,7 +660,7 @@ class PopularDoctorsSection extends StatelessWidget {
   }
 
 
-  Widget _buildDoctorCard(DoctorModel doctors) {
+  Widget _buildDoctorCard(DoctorModel doctor) {
     return Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
@@ -705,7 +682,7 @@ class PopularDoctorsSection extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: Image.asset(
-                        doctors.photo,
+                        doctor.photo,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -717,10 +694,10 @@ class PopularDoctorsSection extends StatelessWidget {
                     crossAxisAlignment:
                         CrossAxisAlignment.start,
                     children: [
-                      Text(doctors.name,
+                      Text(doctor.name,
                 style: TextStyle(
                   fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                      Text(doctors.department),
+                      Text(doctor.department),
                     ],
                   ),
                 ),
@@ -728,7 +705,7 @@ class PopularDoctorsSection extends StatelessWidget {
               Row(
   children: [
     Text(
-      "(${doctors.reviews} reviews)",
+      "(${doctor.reviews} reviews)",
       style: const TextStyle(fontSize: 12),
     ),
     const SizedBox(width: 6),
@@ -739,7 +716,7 @@ class PopularDoctorsSection extends StatelessWidget {
     ),
     const SizedBox(width: 4),
     Text(
-      doctors.rating.toString(),
+      doctor.rating.toString(),
       style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
     ),
   ],

@@ -3,24 +3,23 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
-import 'package:selfcare_mobileapp/features/enquiry/presentation/models/doctorConsultation_model.dart';
+import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/thank_you.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/providers/bookAppointment-provider.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/pages/home.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/widgets/bottom_nav_bar.dart';
+  import 'package:url_launcher/url_launcher.dart';
 
-class BookAppointmentScreen extends StatefulWidget {
-  final DoctorConsultation doctor;
-  const BookAppointmentScreen({super.key, required this.doctor});
+class DoctorOneScreen extends StatefulWidget {
+  final DoctorModel doctor;
+  const DoctorOneScreen({super.key, required this.doctor});
 
   @override
-  State<BookAppointmentScreen> createState() => _BookAppointmentScreenState();
+  State<DoctorOneScreen> createState() => _DoctorOneScreenState();
 }
 
 
-
-class _BookAppointmentScreenState
-    extends State<BookAppointmentScreen> {
-
+class _DoctorOneScreenState extends State<DoctorOneScreen> {
 
   final List<String> timeSlots = [
     "09:00",
@@ -30,6 +29,18 @@ class _BookAppointmentScreenState
     "16:30",
     "18:00",
   ];
+
+
+Future<void> openGoogleMaps(String address) async {
+  final Uri googleUrl = Uri.parse(
+    "https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(address)}",
+  );
+
+  await launchUrl(
+    googleUrl,
+    mode: LaunchMode.externalApplication,
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +119,7 @@ class _BookAppointmentScreenState
                                   borderRadius: BorderRadius.circular(16),
                                   color: Colors.grey.shade300,
                                   image: DecorationImage(
-                                    image: AssetImage(widget.doctor.imagePath),
+                                    image: AssetImage(widget.doctor.photo),
                                     fit: BoxFit.cover,
                                   ),
                             
@@ -251,67 +262,64 @@ class _BookAppointmentScreenState
                       
                       
                     /// Cancel Visit Container
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 14),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                        children:  [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 4,
-                                backgroundColor: Colors.white,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                "Cancel a Visit",
-                                style: TextStyle(
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          Row(
-                            // mainAxisAlignment: MainAxisAlignment.end,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              
-                          GestureDetector(
-                            onTap: () {},
-                            child: SvgPicture.asset(
-                              "assets/icons/right arrow.svg",
-                              width: 18,
-                              height: 18,
-                            ),
-                          ),
+                    // Container(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       horizontal: 16, vertical: 14),
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.black,
+                    //     borderRadius: BorderRadius.circular(16),
+                    //   ),
+                    //   child: Row(
+                    //     mainAxisAlignment:
+                    //         MainAxisAlignment.spaceBetween,
+                    //     children:  [
+                    //       Row(
+                    //         children: [
+                    //           CircleAvatar(
+                    //             radius: 4,
+                    //             backgroundColor: Colors.white,
+                    //           ),
+                    //           SizedBox(width: 8),
+                    //           Text(
+                    //             "Cancel a Visit",
+                    //             style: TextStyle(
+                    //                 color: Colors.white),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //       Spacer(),
+                    //       Row(
+                    //         // mainAxisAlignment: MainAxisAlignment.end,
+                    //         mainAxisSize: MainAxisSize.min,
+                    //         children: [                  
+                    //       GestureDetector(
+                    //         onTap: () {},
+                    //         child: SvgPicture.asset(
+                    //           "assets/icons/right arrow.svg",
+                    //           width: 18,
+                    //           height: 18,
+                    //         ),
+                    //       ),
                           
-                          GestureDetector(
-                            onTap: () {},
-                            child: SvgPicture.asset(
-                              "assets/icons/right arrow.svg",
-                              width: 18,
-                              height: 18,
-                              colorFilter: const ColorFilter.mode(
-                                AppColors.surface,
-                                BlendMode.srcIn,
-                              ),
-                              
-                            ),
-                          ),
-                            ],
-                          )
+                    //       GestureDetector(
+                    //         onTap: () {},
+                    //         child: SvgPicture.asset(
+                    //           "assets/icons/right arrow.svg",
+                    //           width: 18,
+                    //           height: 18,
+                    //           colorFilter: const ColorFilter.mode(
+                    //             AppColors.surface,
+                    //             BlendMode.srcIn,
+                    //           ),  
+                    //         ),
+                    //       ),
+                    //         ],
+                    //       )      
+                    //     ],
+                    //   ),
+                    // ),
                           
-                        ],
-                      ),
-                    ),
-                          
-                    SizedBox(height: size.height * 0.03),
+                    // SizedBox(height: size.height * 0.03),
                           
                     /// Stats Row
                     Row(
@@ -422,8 +430,7 @@ class _BookAppointmentScreenState
                           spacing: 10,
                           runSpacing: 10,
                           children: List.generate(timeSlots.length,
-                              (index) {
-                              
+                              (index) {        
                             final dateKey =
                               DateFormat('yyyy-MM-dd').format(appointment.selectedDate);
 
@@ -448,8 +455,7 @@ class _BookAppointmentScreenState
                                       ? AppColors.primary
                                       : AppColors.surface,
                                   borderRadius:
-                                      BorderRadius.circular(12),
-                                  
+                                      BorderRadius.circular(12),     
                                 ),
                                 child: Text(
                                   timeSlots[index],
@@ -468,8 +474,81 @@ class _BookAppointmentScreenState
                       }
                     ),
                           
-                    SizedBox(height: size.height * 0.04),
+                    SizedBox(height: size.height * 0.03),
                           
+
+                    /// Make appointment Container
+                    Material(
+                      child: InkWell(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ThankyouScreen())),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 14),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            children:  [
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 4,
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    "Make appointment",
+                                    style: TextStyle(
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              Row(
+                                // mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  
+                              GestureDetector(
+                                onTap: () {},
+                                child: SvgPicture.asset(
+                                  "assets/icons/right arrow.svg",
+                                  width: 18,
+                                  height: 18,
+                                  colorFilter: const ColorFilter.mode(
+                                    AppColors.cardBackground,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
+                              
+                              GestureDetector(
+                                onTap: () {},
+                                child: SvgPicture.asset(
+                                  "assets/icons/right arrow.svg",
+                                  width: 18,
+                                  height: 18,
+                                  colorFilter: const ColorFilter.mode(
+                                    AppColors.surface,
+                                    BlendMode.srcIn,
+                                  ),
+                                  
+                                ),
+                              ),
+                                ],
+                              )
+                              
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                      
+                    SizedBox(height: size.height * 0.03),
+
                     /// About Section
                     const Text(
                       "About Doctor",
@@ -479,7 +558,7 @@ class _BookAppointmentScreenState
                           color: AppColors.textPrimary),
                     ),
                           
-                    const SizedBox(height: 10),
+                    SizedBox(height: size.height * 0.02),
                           
                      Text(
                       widget.doctor.description,
@@ -489,7 +568,109 @@ class _BookAppointmentScreenState
                     ),
                           
                     SizedBox(height: size.height * 0.05),
+
+                    const Text(
+                      "Location",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.textPrimary),
+                    ),
+
+                    SizedBox(height: size.height * 0.02),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                            SvgPicture.asset(
+                              "assets/icons/location.svg",
+                              width: 24,
+                              height: 24,
+                              colorFilter: const ColorFilter.mode(
+                                AppColors.textPrimary,
+                                BlendMode.srcIn,
+                              ),
+                              
+                            ),
+                            SizedBox(width: size.width * 0.01),
+                            Expanded(
+                              child: Text(
+                                                    widget.doctor.location,
+                                                    style: TextStyle(
+                                                        color: AppColors.textSecondary,
+                                                        ),
+                                                        // softWrap: true,
+                                                  ),
+                            ),
+                            
+                          ],),
+                        ),
+                        SizedBox(width: size.width * 0.02),
+
+                        Expanded(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                            SvgPicture.asset(
+                            "assets/icons/hospital.svg",
+                            width: 24,
+                            height: 24,
+                            colorFilter: const ColorFilter.mode(
+                              AppColors.textPrimary,
+                              BlendMode.srcIn,
+                            ),
+                            
+                          ),
+                          SizedBox(width: size.width * 0.02),
+                          Expanded(
+                            child: Text(
+                              widget.doctor.hospital,
+                              style: TextStyle(
+                              color: AppColors.textSecondary,
+                              ),
+                              // softWrap: true,
+                              ),
+                          )
                           
+                          ],),
+                        )
+
+                      ],
+
+                    ),
+
+
+                    GestureDetector(
+  onTap: () => openGoogleMaps(widget.doctor.location),
+  child: Container(
+    padding: const EdgeInsets.symmetric(
+      horizontal: 16,
+      vertical: 14,
+    ),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(14),
+      color: Colors.blue.shade50,
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        Icon(Icons.map, color: Colors.blue),
+        SizedBox(width: 8),
+        Text(
+          "View on Google Maps",
+          style: TextStyle(
+            color: Colors.blue,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    ),
+  ),
+),  
                     ],),
                     )
                   ],
