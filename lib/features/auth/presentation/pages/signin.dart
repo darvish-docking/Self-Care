@@ -7,6 +7,7 @@ import 'package:selfcare_mobileapp/features/auth/presentation/pages/otp.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/pages/signup.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/signin_provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/pages/home.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/pages/main_screen.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -155,11 +156,9 @@ class _SignInForm extends StatelessWidget {
                       final isSuccess = await provider.submit();
 
                       if (isSuccess && context.mounted) {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(
-                            builder: (_) => const HomePage(),
-                          ),
+                          MaterialPageRoute(builder: (_) => const MainScreen()),
                         );
                       }
                   },

@@ -29,7 +29,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     return Scaffold(
       /// ✅ Reuse your existing Bottom Navigation
-      bottomNavigationBar: const BottomNavBar(), // Replace with your bottom nav widget
+      // bottomNavigationBar: const BottomNavBar(), // Replace with your bottom nav widget
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8),

@@ -52,7 +52,7 @@ class DoctorPage extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: const BottomNavBar(),
+        // bottomNavigationBar: const BottomNavBar(),
       ),
     );
   }
@@ -438,7 +438,9 @@ class PopularDoctorsSection extends StatelessWidget {
   Widget _buildDoctorCard(BuildContext context, DoctorModel doctor) {
     return Material(
       child: InkWell(
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DoctorOneScreen(doctor: doctor,))),
+        onTap: () => 
+        // Navigator.push(context, MaterialPageRoute(builder: (_) => DoctorOneScreen(doctor: doctor,))),
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => DoctorOneScreen(doctor: doctor,))),
         child: Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(

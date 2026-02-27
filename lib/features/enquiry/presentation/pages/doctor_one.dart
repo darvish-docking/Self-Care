@@ -50,7 +50,7 @@ Future<void> openGoogleMaps(String address) async {
       // backgroundColor: Colors.white,
 
       /// ✅ Reuse your existing Bottom Navigation
-      bottomNavigationBar: const BottomNavBar(), // Replace with your bottom nav widget
+      // bottomNavigationBar: const BottomNavBar(), // Replace with your bottom nav widget
 
       body: Column(
         children: [
@@ -480,7 +480,9 @@ Future<void> openGoogleMaps(String address) async {
                     /// Make appointment Container
                     Material(
                       child: InkWell(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ThankyouScreen(doctor:widget.doctor))),
+                        onTap: () => 
+                        // Navigator.push(context, MaterialPageRoute(builder: (_) => ThankyouScreen(doctor:widget.doctor))),
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThankyouScreen(doctor:widget.doctor))),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 14),

@@ -39,7 +39,7 @@ class _BookAppointmentScreenState
       // backgroundColor: Colors.white,
 
       /// ✅ Reuse your existing Bottom Navigation
-      bottomNavigationBar: const BottomNavBar(), // Replace with your bottom nav widget
+      // bottomNavigationBar: const BottomNavBar(), // Replace with your bottom nav widget
 
       body: Column(
         children: [

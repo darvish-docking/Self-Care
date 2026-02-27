@@ -26,7 +26,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
 
     return Scaffold(
       /// ✅ Reuse your existing Bottom Navigation
-      bottomNavigationBar: const BottomNavBar(), // Replace with your bottom nav widget
+      // bottomNavigationBar: const BottomNavBar(), // Replace with your bottom nav widget
       body: Column(
         children: [
 
@@ -380,7 +380,10 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                       width: width * 0.5,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (_) => PaymentScreen()));},
+                        onPressed: () {
+                          // Navigator.push(context, MaterialPageRoute(builder: (_) => PaymentScreen()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => PaymentScreen()));
+                        },
                         child: const Text("Go to payment"),
                       ),
                     ),

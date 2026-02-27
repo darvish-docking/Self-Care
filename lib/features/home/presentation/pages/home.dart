@@ -22,42 +22,39 @@ class HomePage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return ChangeNotifierProvider(
-      create: (_) => HomeProvider(),
-      child: Scaffold(
-        extendBody: true,
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: EdgeInsets.only(
-                bottom: screenHeight * 0.12,
-                left: screenWidth * 0.04,
-                right: screenWidth * 0.04,
-                top: screenHeight * 0.05,
-              ),
-              child:  Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  HeaderSection(),
-                  SizedBox(height: 12),
-                  LocationSection(),
-                  SizedBox(height: 16),
-                  SearchSection(),
-                  SizedBox(height: 16),
-                  FilterChipsSection(),
-                  SizedBox(height: 20),
-                  RecentSection(),
-                  SizedBox(height: 24),
-                  CategoriesSection(),
-                  SizedBox(height: 24),
-                  PopularDoctorsSection(),
-                ],
-              ),
+    return Scaffold(
+      extendBody: true,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: EdgeInsets.only(
+              bottom: screenHeight * 0.12,
+              left: screenWidth * 0.04,
+              right: screenWidth * 0.04,
+              top: screenHeight * 0.05,
             ),
-          ],
-        ),
-        bottomNavigationBar: const BottomNavBar(),
+            child:  Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                HeaderSection(),
+                SizedBox(height: 12),
+                LocationSection(),
+                SizedBox(height: 16),
+                SearchSection(),
+                SizedBox(height: 16),
+                FilterChipsSection(),
+                SizedBox(height: 20),
+                RecentSection(),
+                SizedBox(height: 24),
+                CategoriesSection(),
+                SizedBox(height: 24),
+                PopularDoctorsSection(),
+              ],
+            ),
+          ),
+        ],
       ),
+      // bottomNavigationBar: const BottomNavBar(),
     );
   }
 }
@@ -307,12 +304,17 @@ class RecentSection extends StatelessWidget {
         Material(
           child: InkWell(
             onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => BookAppointmentScreen(doctor: recentConsultations[0]),
-            ),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (_) => BookAppointmentScreen(doctor: recentConsultations[0]),
+          //   ),
+          // );
+          Navigator.of(context).push(
+  MaterialPageRoute(
+    builder: (_) => BookAppointmentScreen(doctor: recentConsultations[0]),
+  ),
+);
         },
             child: Container(
               padding: const EdgeInsets.all(16),
@@ -630,7 +632,8 @@ class PopularDoctorsSection extends StatelessWidget {
             const Spacer(),
             TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => DoctorPage()));
+                  // Navigator.push(context, MaterialPageRoute(builder: (_) => DoctorPage()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => DoctorPage()));
                 },
                 child: const Text("See All",
                 style: TextStyle(
