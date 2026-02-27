@@ -175,7 +175,7 @@ Widget build(BuildContext context) {
                         context,
                         MaterialPageRoute(
                           builder: (_) =>
-                              DoctorChatScreen(doctor: doctor),
+                              DoctorChatScreen(chatWithDoctor: doctor),
                         ),
                       );
                     },
