@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/models/chat_message_model.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/models/doctor_chat_model.dart';
+import 'package:selfcare_mobileapp/features/chat/presentation/pages/call_screen.dart';
 
 class DoctorChatScreen extends StatefulWidget {
   final DoctorChatModel chatWithDoctor;
@@ -149,7 +150,16 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
               doctor: widget.chatWithDoctor,
               onBack: () => Navigator.pop(context),
               onCall: () {  
+
+                // Navigator.push(context, MaterialPageRoute(builder: (_) => CallScreen(callDoctor: widget.chatWithDoctor)));
+                Navigator.of(context, rootNavigator: true).push(
+  MaterialPageRoute(
+    builder: (_) => CallScreen(callDoctor: widget.chatWithDoctor),
+  ),
+);
                 // video call with DOCTOR
+
+
               },
             ),
                   

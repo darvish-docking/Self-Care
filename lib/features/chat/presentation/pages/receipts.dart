@@ -239,11 +239,15 @@ class ReceiptItemContainer extends StatelessWidget {
             child: SvgPicture.asset('assets/icons/pills.svg',
               width: width * 0.04,
               height: height * 0.04,
+              colorFilter: ColorFilter.mode(
+                                            AppColors.surface,
+                                            BlendMode.srcIn,
+                                          ),
             ),
           ),
 
           SizedBox(width: width * 0.04),
-          
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
