@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/models/chat_message_model.dart';
-import 'package:selfcare_mobileapp/features/chat/presentation/models/doctor_chat_model.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/pages/call_screen.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
 

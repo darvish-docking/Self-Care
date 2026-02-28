@@ -171,6 +171,8 @@ Widget _buildFormSection(BuildContext context){
 
       Consumer<SignupFormProvider>(
         builder: (context, loc, child) {
+          final hasError = loc.countryError != null;
+
           return Column(
             children: [
               TextField(
@@ -190,6 +192,49 @@ Widget _buildFormSection(BuildContext context){
                     borderRadius: BorderRadius.circular(12),
                   ),
                   errorText: loc.countryError,
+
+                  enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: hasError
+            ? AppColors.error
+            : AppColors.textPrimary,
+      ),
+    ),
+
+    // 👇 Focused border
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: hasError
+            ? AppColors.error
+            : AppColors.primary,
+        width: 2,
+      ),
+    ),
+
+    // 👇 When error is present (not focused)
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: AppColors.error,
+      ),
+    ),
+
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: AppColors.error,
+        width: 2,
+      ),
+    ),
+
+    // 👇 Custom error text style
+    errorStyle: TextStyle(
+      color: AppColors.error,
+      fontSize: 13,
+    ),
+
               
                   prefixIcon: loc.selectedCountry != null
                       ? Padding(
@@ -248,7 +293,7 @@ Widget _buildContinueButton(context) {
           onPressed: () {
             //gender + dob + location
 
-            print('role: ${formProvider.selectedUserRole.name} - gender: ${formProvider.selectedGender?.label} - DOB: ${formProvider.selectedDob} - Location: ${formProvider.selectedCountry}');
+            // print('role: ${formProvider.selectedUserRole.name} - gender: ${formProvider.selectedGender?.label} - DOB: ${formProvider.selectedDob} - Location: ${formProvider.selectedCountry}');
             if (!formProvider.validateOnContinue()) {
               print("Validation failed");
               return;
@@ -363,18 +408,20 @@ Widget _genderOption(BuildContext context, Gender gender) {
 Widget _dateField(BuildContext context, {required String hint, required TextEditingController controller, required FocusNode focusNode, 
 required FocusNode? nextFocus, String? errorText} ) {
 
+  final hasError = errorText != null;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(hint == 'DD'? 'Day:': hint == 'MM'? 'Month:' : 'Year:',
       style: TextStyle(
         color: AppColors.textSecondary,
-        fontSize: 15.0
+        fontSize: 15.0,
+        fontWeight: FontWeight.w600
         ),
         textAlign: TextAlign.left,),
       SizedBox(
         width: 80,
-        height: 60,
+        height: 50,
         child: TextField(
           keyboardType: TextInputType.number,
           textAlign: TextAlign.center,
@@ -385,13 +432,30 @@ required FocusNode? nextFocus, String? errorText} ) {
           FilteringTextInputFormatter.digitsOnly,
         ],
           decoration: InputDecoration(
-            counterText: "", // hides maxLength counter
+            counterText: "",
             hintText: hint,
-            errorText: errorText,
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 14),
-            border: OutlineInputBorder(
+
+            // ✅ Dynamic border color
+            enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: hasError
+                    ? AppColors.error
+                    : AppColors.textPrimary,
+                    width: 1.5,
+              ),
+            ),
+
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: hasError
+                    ? AppColors.error
+                    : AppColors.primary,
+                width: 2,
+              ),
             ),
           ),
           onChanged: (value) {
@@ -403,12 +467,20 @@ required FocusNode? nextFocus, String? errorText} ) {
             },
         ),
       ),
-      // Text(errorText,
-      // style: TextStyle(
-      //   color: AppColors.error,
-      //   fontSize: 15.0
-      //   ),
-      //   textAlign: TextAlign.left,),
+      SizedBox(
+  height: 18,
+  child: AnimatedOpacity(
+    duration: const Duration(milliseconds: 200),
+    opacity: hasError ? 1.0 : 0.0,
+    child: Text(
+      errorText ?? '',
+      style: const TextStyle(
+        color: AppColors.error,
+        fontSize: 13,
+      ),
+    ),
+  ),
+),
       
     ],
   );

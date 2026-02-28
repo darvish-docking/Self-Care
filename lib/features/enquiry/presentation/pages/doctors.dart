@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/auth_provider.dart';
-import 'package:selfcare_mobileapp/features/enquiry/presentation/models/doctorConsultation_model.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/book_appointment.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/doctor_one.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/category_models.dart';

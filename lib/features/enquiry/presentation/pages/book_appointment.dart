@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/pages/call_screen.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/pages/chat_screen.dart';
-import 'package:selfcare_mobileapp/features/enquiry/presentation/models/doctorConsultation_model.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/providers/bookAppointment-provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/pages/home.dart';
