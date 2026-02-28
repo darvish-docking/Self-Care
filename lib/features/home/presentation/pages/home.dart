@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:selfcare_mobileapp/core/providers/app_providers.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/auth_provider.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/models/doctorConsultation_model.dart';
@@ -44,7 +45,7 @@ class HomePage extends StatelessWidget {
                 SizedBox(height: 16),
                 FilterChipsSection(),
                 SizedBox(height: 20),
-                RecentSection(),
+                RecentSection(doctors: [],),
                 SizedBox(height: 24),
                 CategoriesSection(),
                 SizedBox(height: 24),
@@ -260,23 +261,10 @@ class FilterChipsSection extends StatelessWidget {
 
 
 class RecentSection extends StatelessWidget {
-   RecentSection({super.key});
+   RecentSection({super.key, required this.doctors});
 
-  final List<DoctorConsultation> recentConsultations = [
-  DoctorConsultation(
-    name: "Dr. Eleanor Pena",
-    description: "Dr. Eleanor Pena is a senior cardiologist with more than 8 years of experience. Specialized in treating diseases and abnormalities with infants and babies.",
-    imagePath: "assets/images/Dr.Eleanor Pena.png",
-    department: "Pediatrics",
-    consultationDate: "23 MAr 2026",
-    consultationTime: "16:00",
-    fee: 80,
-    rating: 4.8,
-    reviews: 220,
-  ),
-   // 
+  final List<DoctorModel>  doctors;
   
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -293,7 +281,10 @@ class RecentSection extends StatelessWidget {
             ),
             const Spacer(),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+
+
+              },
               child: const Text("See all",
               style: TextStyle(
                   fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textPrimary),),
@@ -301,113 +292,117 @@ class RecentSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        Material(
-          child: InkWell(
-            onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (_) => BookAppointmentScreen(doctor: recentConsultations[0]),
-          //   ),
-          // );
-          Navigator.of(context).push(
-  MaterialPageRoute(
-    builder: (_) => BookAppointmentScreen(doctor: recentConsultations[0]),
-  ),
-);
-        },
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.doctor,
-                borderRadius: BorderRadius.circular(16),
+        Consumer<DataProvider>(
+          builder: (context, elena, _) {
+            return Material(
+              child: InkWell(
+                onTap: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (_) => BookAppointmentScreen(doctor: recentConsultations[0]),
+              //   ),
+              // );
+              Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => BookAppointmentScreen(doctor: elena.doctors[6]),
               ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            );
+            },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.doctor,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
                     children: [
-                      SizedBox(
-                        width: 60,
-                        height: 60,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.asset(
-                            "assets/images/Dr.Eleanor Pena.png",
-                            fit: BoxFit.cover,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 60,
+                            height: 60,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.asset(
+                                "assets/images/Dr.Eleanor Pena.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Dr. Eleanor Pena",
-                                    style: TextStyle(color: AppColors.surface)),
-                                Text('    (220 reviews)',
-                                  style: TextStyle(
-                                    fontSize: 13, color: AppColors.surface
-                                  ),),
-                                const SizedBox(width: 6),
-                                const Icon(
-                                  Icons.star,
-                                  size: 18,
-                                  color: Color.fromARGB(255, 247, 142, 177),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Dr. Eleanor Pena",
+                                        style: TextStyle(color: AppColors.surface)),
+                                    Text('    (220 reviews)',
+                                      style: TextStyle(
+                                        fontSize: 13, color: AppColors.surface
+                                      ),),
+                                    const SizedBox(width: 6),
+                                    const Icon(
+                                      Icons.star,
+                                      size: 18,
+                                      color: Color.fromARGB(255, 247, 142, 177),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '4.8',
+                                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.surface),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  '4.8',
-                                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.surface),
+                                SizedBox(height: 4),
+                                Text("Pediatrics",
+                                    style: TextStyle(color: Colors.white70)),
+                                SizedBox(height: 10),
+                                ],
+                            ),
+                          ),
+                          
+                        ],
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    SvgPicture.asset('assets/icons/icon calendar.svg'),
+                                    Text(" 12 Feb",
+                                        style:
+                                            TextStyle(color: Colors.white)),
+                                  ],
                                 ),
+                                Row(
+                                  children: [
+                                    SvgPicture.asset('assets/icons/icon time.svg'),
+                                    Text(" 10:30 AM",
+                                        style:
+                                            TextStyle(color: Colors.white)),
+                                  ],
+                                ),
+                                Text("\$80",
+                                    style:
+                                        TextStyle(color: Colors.white)),
                               ],
                             ),
-                            SizedBox(height: 4),
-                            Text("Pediatrics",
-                                style: TextStyle(color: Colors.white70)),
-                            SizedBox(height: 10),
-                            ],
-                        ),
-                      ),
-                      
+                    )
+                        
                     ],
                   ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset('assets/icons/icon calendar.svg'),
-                                Text(" 12 Feb",
-                                    style:
-                                        TextStyle(color: Colors.white)),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SvgPicture.asset('assets/icons/icon time.svg'),
-                                Text(" 10:30 AM",
-                                    style:
-                                        TextStyle(color: Colors.white)),
-                              ],
-                            ),
-                            Text("\$80",
-                                style:
-                                    TextStyle(color: Colors.white)),
-                          ],
-                        ),
-                )
-                    
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          }
         ),
         const SizedBox(height: 10),
         Container(

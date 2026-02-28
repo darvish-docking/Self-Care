@@ -3,6 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
+import 'package:selfcare_mobileapp/features/chat/presentation/models/doctor_chat_model.dart';
+import 'package:selfcare_mobileapp/features/chat/presentation/pages/call_screen.dart';
+import 'package:selfcare_mobileapp/features/chat/presentation/pages/chat_menu.dart';
+import 'package:selfcare_mobileapp/features/chat/presentation/pages/chat_screen.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/thank_you.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/providers/bookAppointment-provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
@@ -64,6 +68,9 @@ Future<void> openGoogleMaps(String address) async {
                 // padding: EdgeInsets.symmetric(
                 //     horizontal: size.width * 0.05,
                 //     vertical: size.height * 0.02),
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -185,7 +192,13 @@ Future<void> openGoogleMaps(String address) async {
                                   children: [
                                     IconButton(
                                         onPressed: () {
-                      
+                                          Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              DoctorChatScreen(chatWithDoctor: widget.doctor),
+                        ),
+                      );
                                         },
                                         icon: SvgPicture.asset('assets/icons/messages.svg',
                                           colorFilter: ColorFilter.mode(
@@ -202,7 +215,11 @@ Future<void> openGoogleMaps(String address) async {
                                     
                                     IconButton(
                                         onPressed: () {
-                      
+                                          Navigator.of(context, rootNavigator: true).push(
+                                            MaterialPageRoute(
+                                              builder: (_) => CallScreen(callDoctor: widget.doctor),
+                                            ),
+                                          );
                                         },
                                         icon: SvgPicture.asset('assets/icons/call.svg',
                                         colorFilter: ColorFilter.mode(
@@ -480,9 +497,22 @@ Future<void> openGoogleMaps(String address) async {
                     /// Make appointment Container
                     Material(
                       child: InkWell(
-                        onTap: () => 
+                        onTap: () {
+
+                          final provider =
+                                context.read<AppointmentProvider>();
+
+                            if (provider.selectedTimeSlot == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Please select a time slot"),
+                                ),
+                              );
+                              return;
+                            }
                         // Navigator.push(context, MaterialPageRoute(builder: (_) => ThankyouScreen(doctor:widget.doctor))),
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThankyouScreen(doctor:widget.doctor))),
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => ThankyouScreen(doctor:widget.doctor)));
+                        },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 14),

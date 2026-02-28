@@ -215,16 +215,43 @@ bool get isSubmitted => _isSubmitted;
 
   String? _validateEmail(String value) {
     if (value.isEmpty) return "Email is required";
-    if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-      return "Invalid email address";
-    }
-    return null;
+
+  const emailRegex =
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+
+  if (!RegExp(emailRegex).hasMatch(value)) {
+    return "Invalid email address";
+  }
+
+  return null;
   }
 
   String? _validatePassword(String value) {
-    if (value.isEmpty) return "Password is required";
-    if (value.length < 6) return "Minimum 6 characters required";
-    return null;
+    if (value.isEmpty) {
+    return "Password is required";
+  }
+
+  if (value.length < 8) {
+    return "Minimum 8 characters required";
+  }
+
+  if (!RegExp(r'[A-Z]').hasMatch(value)) {
+    return "At least one uppercase letter required";
+  }
+
+  if (!RegExp(r'[a-z]').hasMatch(value)) {
+    return "At least one lowercase letter required";
+  }
+
+  if (!RegExp(r'[0-9]').hasMatch(value)) {
+    return "At least one number required";
+  }
+
+  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+    return "At least one special character required";
+  }
+
+  return null;
   }
 
   // ---------------------------

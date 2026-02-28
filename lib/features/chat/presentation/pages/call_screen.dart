@@ -3,10 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/models/doctor_chat_model.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/providers/call_provider.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
 import 'chat_screen.dart';
 
 class CallScreen extends StatefulWidget {
-  DoctorChatModel callDoctor;
+  DoctorModel callDoctor;
   CallScreen({super.key, required this. callDoctor});
   
 
@@ -50,7 +51,7 @@ class _CallScreenState extends State<CallScreen>
             height: size.height,
             width: size.width,
             child: Image.asset(
-              widget.callDoctor.imageUrl,
+              widget.callDoctor.photo,
               fit: BoxFit.cover,
             ),
           ),
@@ -71,7 +72,7 @@ class _CallScreenState extends State<CallScreen>
     );
   }
 
-  Widget _buildCallUI(BuildContext context, Size size, DoctorChatModel callDoctor) {
+  Widget _buildCallUI(BuildContext context, Size size, DoctorModel callDoctor) {
     final provider = context.watch<CallProvider>();
 
     return Stack(

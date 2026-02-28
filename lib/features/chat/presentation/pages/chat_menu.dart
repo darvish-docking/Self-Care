@@ -4,63 +4,65 @@ import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/models/doctor_chat_model.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/pages/chat_screen.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/providers/data_provider.dart';
 
 
 
 
 
-final List<DoctorChatModel> doctorList = [
-  DoctorChatModel(
-    id: "1",
-    name: "Dr.Eleanor Pena",
-    department: "Pediatrics",
-    imageUrl: "assets/images/Dr.Eleanor Pena.png",
-    lastMessage: "Please continue the medication for 5 days.",
-    lastMessageTime: DateTime.now().subtract(const Duration(minutes: 5)),
-    unreadCount: 2,
-    isOnline: true,
-  ),
-  DoctorChatModel(
-    id: "2",
-    name: "Dr.Floyd Miles",
-    department: "Pediatrics",
-    imageUrl: "assets/images/Dr.Floyd Miles.png",
-    lastMessage: "Upload the latest lab report.",
-    lastMessageTime: DateTime.now().subtract(const Duration(hours: 1)),
-    unreadCount: 0,
-    isOnline: false,
-  ),
-  DoctorChatModel(
-    id: "3",
-    name: "Dr.Guy Hawkins",
-    department: "Dentist",
-    imageUrl: "assets/images/Dr.Guy Hawkins.png",
-    lastMessage: "How are you feeling today?",
-    lastMessageTime: DateTime.now().subtract(const Duration(days: 1)),
-    unreadCount: 5,
-    isOnline: true,
-  ),
-  DoctorChatModel(
-    id: "4",
-    name: "Dr.Jacob Jones",
-    department: "Nephrologisy",
-    imageUrl: "assets/images/Dr.Jacob Jones.png",
-    lastMessage: "How are you feeling today?",
-    lastMessageTime: DateTime.now().subtract(const Duration(days: 1)),
-    unreadCount: 5,
-    isOnline: true,
-  ),
-  DoctorChatModel(
-    id: "5",
-    name: "Dr.Jane Cooper",
-    department: "Cardiologist",
-    imageUrl: "assets/images/Dr.Jane Cooper.png",
-    lastMessage: "How are you feeling today?",
-    lastMessageTime: DateTime.now().subtract(const Duration(days: 1)),
-    unreadCount: 5,
-    isOnline: true,
-  ),
-];
+// final List<DoctorChatModel> doctorList = [
+//   DoctorChatModel(
+//     id: "1",
+//     name: "Dr.Eleanor Pena",
+//     department: "Pediatrics",
+//     imageUrl: "assets/images/Dr.Eleanor Pena.png",
+//     lastMessage: "Please continue the medication for 5 days.",
+//     lastMessageTime: DateTime.now().subtract(const Duration(minutes: 5)),
+//     unreadCount: 2,
+//     isOnline: true,
+//   ),
+//   DoctorChatModel(
+//     id: "2",
+//     name: "Dr.Floyd Miles",
+//     department: "Pediatrics",
+//     imageUrl: "assets/images/Dr.Floyd Miles.png",
+//     lastMessage: "Upload the latest lab report.",
+//     lastMessageTime: DateTime.now().subtract(const Duration(hours: 1)),
+//     unreadCount: 0,
+//     isOnline: false,
+//   ),
+//   DoctorChatModel(
+//     id: "3",
+//     name: "Dr.Guy Hawkins",
+//     department: "Dentist",
+//     imageUrl: "assets/images/Dr.Guy Hawkins.png",
+//     lastMessage: "How are you feeling today?",
+//     lastMessageTime: DateTime.now().subtract(const Duration(days: 1)),
+//     unreadCount: 5,
+//     isOnline: true,
+//   ),
+//   DoctorChatModel(
+//     id: "4",
+//     name: "Dr.Jacob Jones",
+//     department: "Nephrologisy",
+//     imageUrl: "assets/images/Dr.Jacob Jones.png",
+//     lastMessage: "How are you feeling today?",
+//     lastMessageTime: DateTime.now().subtract(const Duration(days: 1)),
+//     unreadCount: 5,
+//     isOnline: true,
+//   ),
+//   DoctorChatModel(
+//     id: "5",
+//     name: "Dr.Jane Cooper",
+//     department: "Cardiologist",
+//     imageUrl: "assets/images/Dr.Jane Cooper.png",
+//     lastMessage: "How are you feeling today?",
+//     lastMessageTime: DateTime.now().subtract(const Duration(days: 1)),
+//     unreadCount: 5,
+//     isOnline: true,
+//   ),
+// ];
 
 
 
@@ -162,29 +164,33 @@ Widget build(BuildContext context) {
             ),
 
             /// ---------------- CHAT LIST ----------------
-            Expanded(
-              child: ListView.builder(
-                itemCount: doctorList.length,
-                itemBuilder: (context, index) {
-                  final doctor = doctorList[index];
-
-                  return DoctorChatTile(
-                    doctor: doctor,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) =>
-                              DoctorChatScreen(chatWithDoctor: doctor),
-                        ),
+            Consumer<DataProvider>(
+              builder: (context, doctorList,_) {
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: doctorList.doctors.length,
+                    itemBuilder: (context, index) {
+                      final doctor = doctorList.doctors[index];
+                
+                      return DoctorChatTile(
+                        doctor: doctor,
+                        onTap: () {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  DoctorChatScreen(chatWithDoctor: doctor),
+                            ),
+                          );
+                        },
+                        onCall: () {
+                          print("Calling ${doctor.name}");
+                        },
                       );
                     },
-                    onCall: () {
-                      print("Calling ${doctor.name}");
-                    },
-                  );
-                },
-              ),
+                  ),
+                );
+              }
             ),
           ],
         )
@@ -200,7 +206,7 @@ Widget build(BuildContext context) {
 
 
 class DoctorChatTile extends StatelessWidget {
-  final DoctorChatModel doctor;
+  final DoctorModel doctor;
   final VoidCallback onTap;
   final VoidCallback onCall;
 
@@ -265,7 +271,7 @@ class DoctorChatTile extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8), // Rounded corners
         image: DecorationImage(
-          image: AssetImage(doctor.imageUrl),
+          image: AssetImage(doctor.photo),
           fit: BoxFit.cover,
         ),
       ),

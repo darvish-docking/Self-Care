@@ -4,9 +4,10 @@ import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/models/chat_message_model.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/models/doctor_chat_model.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/pages/call_screen.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
 
 class DoctorChatScreen extends StatefulWidget {
-  final DoctorChatModel chatWithDoctor;
+  final DoctorModel chatWithDoctor;
 
   const DoctorChatScreen({
     super.key,
@@ -153,10 +154,10 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
 
                 // Navigator.push(context, MaterialPageRoute(builder: (_) => CallScreen(callDoctor: widget.chatWithDoctor)));
                 Navigator.of(context, rootNavigator: true).push(
-  MaterialPageRoute(
-    builder: (_) => CallScreen(callDoctor: widget.chatWithDoctor),
-  ),
-);
+                  MaterialPageRoute(
+                    builder: (_) => CallScreen(callDoctor: widget.chatWithDoctor),
+                  ),
+                );
                 // video call with DOCTOR
 
 
@@ -197,7 +198,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
 
 
 class DoctorChatHeader extends StatelessWidget {
-  final DoctorChatModel doctor;
+  final DoctorModel doctor;
   final VoidCallback onBack;
   final VoidCallback onCall;
 
@@ -253,7 +254,7 @@ class DoctorChatHeader extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                    image: AssetImage(doctor.imageUrl),
+                    image: AssetImage(doctor.photo),
                     fit: BoxFit.cover,
                   ),
                 ),
