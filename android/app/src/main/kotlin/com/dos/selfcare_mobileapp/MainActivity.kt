@@ -1,4 +1,4 @@
-package com.example.selfcare_mobileapp
+package com.dos.selfcare_mobileapp
 
 import io.flutter.embedding.android.FlutterActivity
 
