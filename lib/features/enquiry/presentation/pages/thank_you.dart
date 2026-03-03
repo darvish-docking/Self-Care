@@ -137,31 +137,31 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
 
                   /// Doctor Tile
                   Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.shade200,
-                      blurRadius: 6)
-                ],
-              ),
-              child:  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // CircleAvatar(radius: 30),
-                  SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.asset(
-                            widget.doctor.photo,
-                            fit: BoxFit.cover,
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.shade200,
+                            blurRadius: 6)
+                      ],
+                    ),
+                    child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // CircleAvatar(radius: 30),
+                      SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.asset(
+                                widget.doctor.photo,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left:8.0),
@@ -200,7 +200,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
               ),
             ),
      
-                  const SizedBox(height: 20),
+                   SizedBox(height: height * 0.02),
 
                   /// Appointment Details
                   // _detailRow("Date", "24 Feb 2026"),
@@ -267,7 +267,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                   ),
 
 
-                  SizedBox(height: height * 0.05),
+                  SizedBox(height: height * 0.02),
                   // Location
                   const Text(
                       "Location: ",
@@ -350,7 +350,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                       ],
 
                     ),
-                    SizedBox(height: height * 0.05),
+                    SizedBox(height: height * 0.02),
                   // Location
                   Row(
                     children: [
@@ -372,7 +372,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                   ),
 
 
-                  SizedBox(height: height * 0.04),
+                  SizedBox(height: height * 0.02),
 
                   /// Button
                   Center(

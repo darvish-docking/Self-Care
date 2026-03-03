@@ -13,6 +13,7 @@ class SigninFormProvider extends ChangeNotifier {
 
   bool _isLoading = false;
 
+
   // ------------------------
   // Getters
   // ------------------------

@@ -12,6 +12,8 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
@@ -21,8 +23,8 @@ class SignUpPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Center(
                   child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 600, // Tablet control
+                    constraints:  BoxConstraints(
+                      maxWidth: width, // Tablet control
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,6 +69,10 @@ class _SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     final hasError = context.select<SignupFormProvider, bool>(
   (p) => p.showTermsError,
 );
@@ -79,20 +85,6 @@ class _SignUpForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
 
-            // FULL NAME
-            // SizedBox(
-            //   width: fieldWidth,
-            //   child: const Text(
-            //   'Full Name',
-              
-            //   style: const TextStyle(
-            //     fontSize:14,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
-            // ),
-
-            // const SizedBox(height: 8),
 
             SizedBox(
               width: fieldWidth,
@@ -107,21 +99,6 @@ class _SignUpForm extends StatelessWidget {
               ),
             ),
 
-            // const SizedBox(height: 20),
-
-            // EMAIL
-            // SizedBox(
-            //   width: fieldWidth,
-            //   child: const Text(
-            //     'Email',
-            //     style: const TextStyle(
-            //       fontSize: 14,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
-
-            // const SizedBox(height: 8),
 
             SizedBox(
               width: fieldWidth,
@@ -135,21 +112,6 @@ class _SignUpForm extends StatelessWidget {
               ),
             ),
 
-            // const SizedBox(height: 20),
-
-            // PASSWORD
-            // SizedBox(
-            //   width: fieldWidth,
-            //   child: const Text(
-            //     'Password',
-            //     style: const TextStyle(
-            //       fontSize: 14,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
-
-            // const SizedBox(height: 8),
 
             SizedBox(
               width: fieldWidth,
@@ -228,7 +190,7 @@ class _SignUpForm extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 200),
+             SizedBox(height: height * 0.20),
 
             // SIGN UP BUTTON (70%)
             SizedBox(

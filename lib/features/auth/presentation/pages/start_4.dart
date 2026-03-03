@@ -394,6 +394,7 @@ Widget _genderOption(BuildContext context, Gender gender) {
                       ? AppColors.primary
                       : AppColors.textPrimary,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

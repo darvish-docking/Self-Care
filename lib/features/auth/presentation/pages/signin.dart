@@ -140,37 +140,45 @@ class _SignInForm extends StatelessWidget {
             const SizedBox(height: 200),
 
             // SIGN in BUTTON (70%)
-            SizedBox(
-              width: buttonWidth,
-              height: 48,
-              child: Container(
+            Consumer<SigninFormProvider>(
+              builder: (context, provider, _) {
+                return SizedBox(
+                  width: buttonWidth,
+                  height: 48,
+                  child: Container(
+                    
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: AppColors.primary,),
+                    child: ElevatedButton(
+                      
+                      onPressed: () async{
+                        final provider = context.read<SigninFormProvider>();
                 
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: AppColors.primary,),
-                child: ElevatedButton(
-                  
-                  onPressed: () async{
-                    final provider = context.read<SigninFormProvider>();
-
-                      final isSuccess = await provider.submit();
-
-                      if (isSuccess && context.mounted) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => const MainScreen()),
-                        );
-                      }
-                  },
-                  child: const Text("Sign In",
-                  style: TextStyle(
-                    color: AppColors.surface,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold
-                  ),),
-                  
-                ),
-              ),
+                          final isSuccess = await provider.submit();
+                
+                          if (isSuccess && context.mounted) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (_) => const MainScreen()),
+                            );
+                          }
+                      },
+                      child: provider.isLoading
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        )
+                                      : const Text("Sign In",
+                      style: TextStyle(
+                        color: AppColors.surface,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold
+                      ),),
+                      
+                    ),
+                  ),
+                );
+              }
             ),
 
             const SizedBox(height: 16),

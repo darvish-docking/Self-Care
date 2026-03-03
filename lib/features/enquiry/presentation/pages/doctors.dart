@@ -167,6 +167,9 @@ class SearchSection extends StatelessWidget {
                 borderSide: BorderSide.none,
               ),
             ),
+            onChanged: (value) {
+  context.read<HomeProvider>().updateSearch(value);
+}
           ),
         ),
         const SizedBox(width: 10),
@@ -209,12 +212,14 @@ class FilterChipsSection extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: chips.map((chip) {
-          final isSelected = provider.selectedChip == chip;
+          final isSelected = provider.selectedTag == chip;
 
           return Padding(
             padding: const EdgeInsets.only(right: 8),
             child: GestureDetector(
-              onTap: () => provider.selectChip(chip),
+              onTap: () {
+  context.read<HomeProvider>().selectTag("heart");
+},
               child: Container(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 16, vertical: 8),

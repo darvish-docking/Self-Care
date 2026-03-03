@@ -25,7 +25,7 @@ enum Gender {
       case Gender.male:
         return 'assets/icons/icon male.svg';
       case Gender.female:
-        return 'assets/icons/icon female.svg';
+        return 'assets/icons/female.svg';
     }
   }
 }

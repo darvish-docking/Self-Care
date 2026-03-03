@@ -5,9 +5,11 @@ import 'package:selfcare_mobileapp/core/providers/app_providers.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/auth_provider.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/book_appointment.dart';
+import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/doctor_one.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/doctors.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/category_models.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/models/filter_tag_model.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/providers/data_provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/providers/home-provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/widgets/bottom_nav_bar.dart';
@@ -184,6 +186,9 @@ class SearchSection extends StatelessWidget {
                 borderSide: BorderSide.none,
               ),
             ),
+            onChanged: (value) {
+  context.read<HomeProvider>().updateSearch(value);
+}
           ),
         ),
         const SizedBox(width: 10),
@@ -214,25 +219,49 @@ class SearchSection extends StatelessWidget {
 
 
 
-class FilterChipsSection extends StatelessWidget {
+class FilterChipsSection extends StatefulWidget {
   const FilterChipsSection({super.key});
+
+  @override
+  State<FilterChipsSection> createState() => _FilterChipSectionState();
+}
+
+class _FilterChipSectionState  extends State<FilterChipsSection>{
+@override
+void initState() {
+  super.initState();
+  context.read<HomeProvider>().initializeData();
+}
+
+
 
   @override
   Widget build(BuildContext context) {
 
     final provider = context.watch<HomeProvider>();
-    final chips = ["#teeth", "#heart", "#eyes", "#surgeon", "#ENT", "#skin", "#pulmonology", "#blood test", "#oncology", "#neurology"];
+    // final chips = ["#teeth", "#heart", "#eyes", "#cardiologist", "#ENT", "#skin", "#pediatrics", "#blood test", "#oncology", "#neurology"];
+    final chips = [
+  FilterTagModel(label: "All", tag: ""),
+  FilterTagModel(label: "Teeth", tag: "teeth"),
+  FilterTagModel(label: "Eyes", tag: "eyes"),
+  FilterTagModel(label: "Heart", tag: "heart"),
+  FilterTagModel(label: "Blood Test", tag: "blood"),
+  FilterTagModel(label: "ENT", tag: "ent"),
+];
+
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: chips.map((chip) {
-          final isSelected = provider.selectedChip == chip;
+          final isSelected = provider.selectedTag == chip;
 
           return Padding(
             padding: const EdgeInsets.only(right: 8),
             child: GestureDetector(
-              onTap: () => provider.selectChip(chip),
+              onTap: () {
+                    context.read<HomeProvider>().selectTag("heart");
+                  },
               child: Container(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 16, vertical: 8),
@@ -241,7 +270,7 @@ class FilterChipsSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  chip,
+                  chip.tag,
                   style: TextStyle(
                     color: isSelected
                         ? AppColors.primary
@@ -255,6 +284,8 @@ class FilterChipsSection extends StatelessWidget {
       ),
     );
   }
+  
+  
 }
 
 
@@ -317,7 +348,7 @@ class RecentSection extends StatelessWidget {
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(
                             width: 60,
@@ -331,29 +362,30 @@ class RecentSection extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
+                            padding: const EdgeInsets.only(left: 14.0),
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text("Dr. Eleanor Pena",
                                         style: TextStyle(color: AppColors.surface)),
+                                     SizedBox(width: 4),
                                     Text('    (220 reviews)',
                                       style: TextStyle(
-                                        fontSize: 13, color: AppColors.surface
+                                        fontSize: 11, color: AppColors.surface
                                       ),),
-                                    const SizedBox(width: 6),
-                                    const Icon(
+                                    // const SizedBox(width: 6),
+                                     Icon(
                                       Icons.star,
-                                      size: 18,
+                                      size: 15,
                                       color: Color.fromARGB(255, 247, 142, 177),
                                     ),
-                                    const SizedBox(width: 4),
+                                    // const SizedBox(width: 4),
                                     Text(
                                       '4.8',
-                                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.surface),
+                                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.surface),
                                     ),
                                   ],
                                 ),
@@ -645,7 +677,7 @@ class PopularDoctorsSection extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: _buildDoctorCard(doctor.doctors[index]),
+                  child: _buildDoctorCard(context, doctor.doctors[index]),
                 );
               },
             );
@@ -657,70 +689,75 @@ class PopularDoctorsSection extends StatelessWidget {
   }
 
 
-  Widget _buildDoctorCard(DoctorModel doctor) {
-    return Container(
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.shade200,
-                  blurRadius: 6)
-            ],
-          ),
-          child:  Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // CircleAvatar(radius: 30),
-              SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Image.asset(
-                        doctor.photo,
-                        fit: BoxFit.cover,
+  Widget _buildDoctorCard(BuildContext context, DoctorModel doctor) {
+    return Material(
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => DoctorOneScreen(doctor: doctor,))),
+        child: Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.shade200,
+                      blurRadius: 6)
+                ],
+              ),
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // CircleAvatar(radius: 30),
+                  SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.asset(
+                            doctor.photo,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left:8.0),
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                        children: [
+                          Text(doctor.name,
+                    style: TextStyle(
+                      fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                          Text(doctor.department),
+                        ],
                       ),
                     ),
                   ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left:8.0),
-                  child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                    children: [
-                      Text(doctor.name,
-                style: TextStyle(
-                  fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                      Text(doctor.department),
-                    ],
-                  ),
-                ),
+                  Row(
+          children: [
+        Text(
+          "(${doctor.reviews} reviews)",
+          style: const TextStyle(fontSize: 12),
+        ),
+        const SizedBox(width: 6),
+        const Icon(
+          Icons.star,
+          size: 18,
+          color: Color.fromARGB(255, 247, 142, 177),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          doctor.rating.toString(),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+        ),
+          ],
+        )
+                ],
               ),
-              Row(
-  children: [
-    Text(
-      "(${doctor.reviews} reviews)",
-      style: const TextStyle(fontSize: 12),
-    ),
-    const SizedBox(width: 6),
-    const Icon(
-      Icons.star,
-      size: 18,
-      color: Color.fromARGB(255, 247, 142, 177),
-    ),
-    const SizedBox(width: 4),
-    Text(
-      doctor.rating.toString(),
-      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
-    ),
-  ],
-)
-            ],
-          ),
-        );
+            ),
+      ),
+    );
   }
 
 }
