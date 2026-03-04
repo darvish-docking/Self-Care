@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/otp_provider.dart';
@@ -38,9 +40,14 @@ class AppProviders {
 
     
 
+
       Provider<AuthRemoteDatasource>(
-        create: (_) => AuthRemoteDatasource(Dio()),
+        create: (_) => AuthRemoteDatasource(
+          FirebaseAuth.instance,
+          FirebaseFirestore.instance,
+        ),
       ),
+
 
       Provider<AuthRepository>(
         create: (context) => AuthRepositoryImpl(
