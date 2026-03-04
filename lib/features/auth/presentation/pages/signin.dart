@@ -158,10 +158,16 @@ class _SignInForm extends StatelessWidget {
                           final isSuccess = await provider.submit();
                 
                           if (isSuccess && context.mounted) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (_) => const MainScreen()),
-                            );
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(builder: (_) => const MainScreen()),
+                            // );
+
+                            Navigator.pushAndRemoveUntil(
+  context,
+  MaterialPageRoute(builder: (_) => const MainScreen()),
+  (route) => false,
+);
                           }
                       },
                       child: provider.isLoading

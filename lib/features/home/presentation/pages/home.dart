@@ -161,6 +161,9 @@ class SearchSection extends StatelessWidget {
   @override
   Widget build(BuildContext context,) {
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenheight = MediaQuery.of(context).size.height;
+
     final provider = context.watch<HomeProvider>();
 
     return Row(
@@ -240,28 +243,29 @@ void initState() {
 
     final provider = context.watch<HomeProvider>();
     // final chips = ["#teeth", "#heart", "#eyes", "#cardiologist", "#ENT", "#skin", "#pediatrics", "#blood test", "#oncology", "#neurology"];
-    final chips = [
-  FilterTagModel(label: "All", tag: ""),
-  FilterTagModel(label: "Teeth", tag: "teeth"),
-  FilterTagModel(label: "Eyes", tag: "eyes"),
-  FilterTagModel(label: "Heart", tag: "heart"),
-  FilterTagModel(label: "Blood Test", tag: "blood"),
-  FilterTagModel(label: "ENT", tag: "ent"),
-];
+   final chips = [
+    // FilterTagModel(label: "All", tag: ""),
+    FilterTagModel(label: "Teeth", tag: "#teeth"),
+    FilterTagModel(label: "Eyes", tag: "#eyes"),
+    FilterTagModel(label: "Heart", tag: "#heart"),
+    FilterTagModel(label: "Blood Test", tag: "#blood"),
+    FilterTagModel(label: "ENT", tag: "#ent"),
+    FilterTagModel(label: "Pediatrics", tag: "#pediatrics"),
+  ];
 
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: chips.map((chip) {
-          final isSelected = provider.selectedTag == chip;
+          final isSelected = provider.selectedTag == chip.tag;
 
           return Padding(
             padding: const EdgeInsets.only(right: 8),
             child: GestureDetector(
               onTap: () {
-                    context.read<HomeProvider>().selectTag("heart");
-                  },
+  context.read<HomeProvider>().selectTag(chip.tag);
+},
               child: Container(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 16, vertical: 8),
@@ -298,6 +302,8 @@ class RecentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenheight = MediaQuery.of(context).size.height;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -435,8 +441,11 @@ class RecentSection extends StatelessWidget {
             );
           }
         ),
+
         const SizedBox(height: 10),
+
         Container(
+          width: screenWidth * 0.9,
           decoration: BoxDecoration(
             color: AppColors.bloodTest,
             borderRadius: BorderRadius.circular(16),
@@ -453,7 +462,7 @@ class RecentSection extends StatelessWidget {
                         style: TextStyle(color: Colors.white)),
                     SizedBox(height: 4),
                     Text("Duis hendrerit ex nibh, non",
-                        style: TextStyle(color: Colors.white70)),
+                        style: TextStyle(color: Colors.white70, fontSize: 15)),
                     SizedBox(height: 10),
                     Row(
                       mainAxisAlignment:
@@ -668,12 +677,12 @@ class PopularDoctorsSection extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         
-        Consumer<DataProvider>(
+        Consumer<HomeProvider>(
           builder: (context, doctor, _) {
             return ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(), // important if inside another scroll
-              itemCount: doctor.dLength,
+              itemCount: doctor.doctors.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -690,6 +699,7 @@ class PopularDoctorsSection extends StatelessWidget {
 
 
   Widget _buildDoctorCard(BuildContext context, DoctorModel doctor) {
+
     return Material(
       child: InkWell(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => DoctorOneScreen(doctor: doctor,))),

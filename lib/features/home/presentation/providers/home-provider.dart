@@ -90,23 +90,23 @@ class HomeProvider extends ChangeNotifier {
   
   ),
   DoctorModel(
-    id: '1',
-    photo: 'assets/images/Dr.Marvin Mckinney.png',
-    name: "Dr.Marvin Mckinney",
-    department: "Nephrologist",
-    rating: 4.1,
-    reviews: 22,
-    fee: 80,
-    description: "Dr.Marvin is experienced in managing kidney-related disorders such as chronic kidney disease, kidney infections, electrolyte imbalances, and hypertension-related renal complications. The approach includes accurate diagnosis, personalized treatment plans, and patient education to help maintain optimal kidney function and prevent long-term complications.",
+    id: '5',
+    photo: 'assets/images/Dr.Jane Cooper.png',
+    name: "Dr.Jane Cooper",
+    department: "Cardiologist",
+    rating: 4.7,
+    reviews: 44,
+    fee: 95,
+    description: "Dr.Jane Cooper specializes in diagnosing and treating heart-related conditions including hypertension, coronary artery disease, heart rhythm disorders, and heart failure. With extensive experience in preventive cardiology, the doctor focuses on early detection, lifestyle modification, and advanced cardiac care to ensure long-term heart health and improved quality of life for patients.",
     location: "3891 Ranchview,San Francisco 62639",
-    hospital: "International Medical College",
-    lastMessage: "Please continue the medication for 7 days.",
-    lastMessageTime: DateTime.now().subtract(const Duration(minutes: 5)),
-    unreadCount: 2,
+    hospital: "Cooper loop Medical College",
+    lastMessage: "How are you feeling today?",
+    lastMessageTime: DateTime.now().subtract(const Duration(days: 1)),
+    unreadCount: 5,
     isOnline: true,
-    consultationDate: "23 May 2026",
-    consultationTime: "10:00",
-    tags: ['nephrologist'],
+    consultationDate: "23 Apr 2026",
+    consultationTime: "14:00",
+    tags: ['heart', 'cardiology'],
   ),
     ];
 
@@ -141,6 +141,7 @@ class HomeProvider extends ChangeNotifier {
 
   void _applyFilters() {
 
+    
     /// Filter Doctors
     _filteredDoctors = _allDoctors.where((doctor) {
 
@@ -186,5 +187,12 @@ class HomeProvider extends ChangeNotifier {
     }).toList();
 
     notifyListeners();
+
+    print("Search: $_searchQuery");
+print("Tag: $_selectedTag");
+print("Doctors: ${_filteredDoctors.length}");
+print("Tests: ${_filteredTests.length}");
+print("Appointments: ${_filteredAppointments.length}");
+
   }
 }

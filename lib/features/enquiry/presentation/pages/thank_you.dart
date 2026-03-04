@@ -19,6 +19,7 @@ class ThankyouScreen extends StatefulWidget {
 
 class _ThankyouScreenState extends State<ThankyouScreen> {
 
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -50,7 +51,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
 
                 /// Back Button
                 Positioned(
-                  top: 50,
+                  top: 20,
                   left: 8,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -77,6 +78,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                 /// Center Content
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children:  [
                     
                     SizedBox(height: 80),
@@ -109,11 +111,31 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      "Your visit has been successfully reserved, please pay for it to get an appointment with the selected doctor",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white70,
+                    Center(
+                      child: Text(
+                        "Your visit has been successfully reserved,",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "please pay for it to get an appointment",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "with the selected doctor",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white70,
+                        ),
                       ),
                     ),
                   ],
