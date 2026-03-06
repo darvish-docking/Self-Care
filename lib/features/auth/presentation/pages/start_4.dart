@@ -34,10 +34,10 @@ class StartPage4State extends State<StartPage4>{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               
-              const SizedBox(height: 40),
+               SizedBox(height: screenheight * 0.01),
 
               /// 🔹 Header Section (Centered)
-              _buildHeader(),
+              _buildHeader(context),
 
               const SizedBox(height: 60),
 
@@ -64,7 +64,9 @@ class StartPage4State extends State<StartPage4>{
 
 
 
-Widget _buildHeader() {
+Widget _buildHeader(BuildContext context) {
+  final screenWidth = MediaQuery.of(context).size.width;
+    final screenheight = MediaQuery.of(context).size.height;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
@@ -74,7 +76,7 @@ Widget _buildHeader() {
           height: 60,
         ),
       ),
-      const SizedBox(height: 50),
+       SizedBox(height: screenheight *0.01),
       Center(
         child: Text(
           "A little about yourself",
@@ -397,12 +399,13 @@ Widget _genderOption(BuildContext context, Gender gender) {
               child: Text(
                 label,
                 style: TextStyle(
-                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
                   color: isSelected
                       ? AppColors.primary
                       : AppColors.textPrimary,
                 ),
-                overflow: TextOverflow.ellipsis,
+                
               ),
             ),
           ),

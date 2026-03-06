@@ -25,11 +25,19 @@ class AppProviders {
   
     ChangeNotifierProvider<OtpProvider>(create: (_) => OtpProvider()),
 
-    ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
+    ChangeNotifierProvider<DataProvider>(create: (_) => DataProvider(),),
 
-    ChangeNotifierProvider<AppointmentProvider>(create: (_) =>AppointmentProvider()),
+    ChangeNotifierProxyProvider<DataProvider, HomeProvider>(
+      create: (_) => HomeProvider(),
+      update: (_, dataProvider, homeProvider) {
+        homeProvider ??= HomeProvider();
+        homeProvider.updateData(dataProvider);
+        return homeProvider;
+      },
+    ),
 
-    ChangeNotifierProvider<DataProvider>(create: (_) =>DataProvider()),
+
+     ChangeNotifierProvider<AppointmentProvider>(create: (_) =>AppointmentProvider()),
 
     ChangeNotifierProvider<PaymentProvider>(create: (_) =>PaymentProvider()),
 

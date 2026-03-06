@@ -84,15 +84,18 @@ class _BookAppointmentScreenState
                       
                       /// Back Button
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        
                         children: [
-                          IconButton(
-                            icon: SvgPicture.asset("assets/icons/left arrow.svg",
-                            width: 15,
-                            height: 15,),
-                            onPressed: () => Navigator.pop(context),
+                          InkWell(
+                            
+                            child: SvgPicture.asset("assets/icons/left arrow.svg",
+                            width: 18,
+                            height: 18,),
+                            onTap: () => Navigator.pop(context),
                           ),
                           const Text(
-                            "Back",
+                            " Back",
                             style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
                           ),
                         ],

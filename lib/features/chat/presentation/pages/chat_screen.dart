@@ -182,7 +182,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
               onSend: _sendMessage,
             ),
 
-            SizedBox(height: screenheight * 0.005,)
+            SizedBox(height: screenheight * 0.02,)
                     ]),
           )
         
@@ -212,6 +212,10 @@ class DoctorChatHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: const BoxDecoration(
@@ -227,23 +231,22 @@ class DoctorChatHeader extends StatelessWidget {
       child: Column(
         children: [
           /// Back
-              InkWell(
-                onTap: onBack,
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: SvgPicture.asset("assets/icons/left arrow.svg",
-                      width: 15,
-                      height: 15,),
-                      onPressed: () => Navigator.pop(context),
-                    ),                
-                    SizedBox(width: 4),
-                    Text("Back", style: TextStyle(
-                      color: AppColors.textPrimary
-                    ),),
-                  ],
-                ),
+              Row(
+                children: [
+                  InkWell(
+                    child: SvgPicture.asset("assets/icons/left arrow.svg",
+                    width: 15,
+                    height: 15,),
+                    onTap: () => Navigator.pop(context),
+                  ),                
+                  
+                  Text(" Back", style: TextStyle(
+                    color: AppColors.textPrimary
+                  ),),
+                ],
               ),
+
+              SizedBox(height: height * 0.015),
           
           Row(
             children: [

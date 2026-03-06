@@ -14,6 +14,7 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
@@ -29,7 +30,7 @@ class SignUpPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 40),
+                        SizedBox(height: height * 0.01),
                         Center(
                           child: Image.asset(
                             'assets/images/logo medicine 1 4 5.png',
@@ -45,9 +46,9 @@ class SignUpPage extends StatelessWidget {
                             color: AppColors.textPrimary
                           ),
                         ),
-                        SizedBox(height: 40),
+                        SizedBox(height: height * 0.01),
                         _SignUpForm(),
-                        SizedBox(height: 40),
+                        // SizedBox(height: 40),
                       ],
                     ),
                   ),
@@ -126,7 +127,7 @@ class _SignUpForm extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 16),
+             SizedBox(height: height * 0.001),
 
             // CHECKBOX (LEFT ALIGNED)
             SizedBox(
@@ -228,7 +229,7 @@ class _SignUpForm extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 16),
+             SizedBox(height: height * 0.01),
 
             // SIGN IN LINK
             RichText(

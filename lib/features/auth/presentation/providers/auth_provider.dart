@@ -45,7 +45,10 @@ final dayController = TextEditingController();
   final monthFocus = FocusNode();
   final yearFocus = FocusNode();
 
-  void onChanged() => notifyListeners();
+  void onChanged() { 
+    validateDob();
+    notifyListeners();
+    }
 
   String? _dayError ;
   String?  _monthError;

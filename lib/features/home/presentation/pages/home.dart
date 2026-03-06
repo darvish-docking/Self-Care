@@ -67,7 +67,6 @@ class HomePage extends StatelessWidget {
 
 
 
-
 class HeaderSection extends StatelessWidget {
     HeaderSection({super.key});
 
@@ -81,42 +80,46 @@ class HeaderSection extends StatelessWidget {
       builder: (context, head, _) {
         return Row(
           children: [
-             Text(
-              "Welcome Back, ${head.fullName}!",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary
-              ),
-            ),
-            const Spacer(),
+             Expanded(
+               child: Text(
+                "Welcome Back, ${head.fullName}!",
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
+                  
+                ),
+                overflow: TextOverflow.ellipsis
+                           ),
+             ),
+            // const Spacer(),
             Stack(
-  clipBehavior: Clip.none,
-  children: [
-    IconButton(
-      onPressed: () {},
-      icon: SvgPicture.asset(
-        'assets/icons/notification.svg',
-        width: 24,
-      ),
-    ),
+              clipBehavior: Clip.none,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: SvgPicture.asset(
+                    'assets/icons/notification.svg',
+                    width: 24,
+                  ),
+                ),
 
-    // 🔴 Red dot (only if notifications exist)
-    if (notifications.isNotEmpty)
-      Positioned(
-        right: 12,
-        top: 8,
-        child: Container(
-          width: 9,
-          height: 9,
-          decoration: BoxDecoration(
-            color: Colors.red,
-            shape: BoxShape.circle,
-          ),
-        ),
-      ),
-  ],
-)
+                // 🔴 Red dot (only if notifications exist)
+                if (notifications.isNotEmpty)
+                  Positioned(
+                    right: 12,
+                    top: 8,
+                    child: Container(
+                      width: 9,
+                      height: 9,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+              ],
+            )
           ],
         );
       }
@@ -165,6 +168,7 @@ class SearchSection extends StatelessWidget {
     final screenheight = MediaQuery.of(context).size.height;
 
     final provider = context.watch<HomeProvider>();
+    
 
     return Row(
       children: [
@@ -230,11 +234,11 @@ class FilterChipsSection extends StatefulWidget {
 }
 
 class _FilterChipSectionState  extends State<FilterChipsSection>{
-@override
-void initState() {
-  super.initState();
-  context.read<HomeProvider>().initializeData();
-}
+// @override
+// void initState() {
+//   super.initState();
+//   // context.read<HomeProvider>().initializeData();
+// }
 
 
 
@@ -328,7 +332,7 @@ class RecentSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        Consumer<DataProvider>(
+        Consumer<HomeProvider>(
           builder: (context, elena, _) {
             return Material(
               child: InkWell(
@@ -351,7 +355,7 @@ class RecentSection extends StatelessWidget {
                     color: AppColors.doctor,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Column(
+                  child: Column(         
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -372,29 +376,8 @@ class RecentSection extends StatelessWidget {
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text("Dr. Eleanor Pena",
-                                        style: TextStyle(color: AppColors.surface)),
-                                     SizedBox(width: 4),
-                                    Text('    (220 reviews)',
-                                      style: TextStyle(
-                                        fontSize: 11, color: AppColors.surface
-                                      ),),
-                                    // const SizedBox(width: 6),
-                                     Icon(
-                                      Icons.star,
-                                      size: 15,
-                                      color: Color.fromARGB(255, 247, 142, 177),
-                                    ),
-                                    // const SizedBox(width: 4),
-                                    Text(
-                                      '4.8',
-                                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.surface),
-                                    ),
-                                  ],
-                                ),
+                                Text("Dr. Eleanor Pena",
+                                    style: TextStyle(color: AppColors.surface)),
                                 SizedBox(height: 4),
                                 Text("Pediatrics",
                                     style: TextStyle(color: Colors.white70)),
@@ -402,14 +385,43 @@ class RecentSection extends StatelessWidget {
                                 ],
                             ),
                           ),
-                          
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('    (220 reviews)',
+                                          style: TextStyle(
+                                            fontSize: 11, color: AppColors.surface
+                                          ),),
+                                        // const SizedBox(width: 6),
+                                         Icon(
+                                          Icons.star,
+                                          size: 15,
+                                          color: Color.fromARGB(255, 247, 142, 177),
+                                        ),
+                                        // const SizedBox(width: 4),
+                                        Text(
+                                          '4.8',
+                                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.surface),
+                                        ),
+                                      ],
+                                    ),
+                              Text('', style: TextStyle(fontSize: 20),),
+                            ],
+                          ),
                         ],
                       ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                              mainAxisAlignment:
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.start,
                               children: [
                                 Row(
                                   children: [
@@ -419,6 +431,7 @@ class RecentSection extends StatelessWidget {
                                             TextStyle(color: Colors.white)),
                                   ],
                                 ),
+                                SizedBox(width: screenWidth * 0.1,),
                                 Row(
                                   children: [
                                     SvgPicture.asset('assets/icons/icon time.svg'),
@@ -427,12 +440,17 @@ class RecentSection extends StatelessWidget {
                                             TextStyle(color: Colors.white)),
                                   ],
                                 ),
-                                Text("\$80",
-                                    style:
-                                        TextStyle(color: Colors.white)),
+                                
                               ],
                             ),
-                    )
+                            Text("\$80",
+                              style:
+                                TextStyle(color: Colors.white)),
+
+                          ],
+                        ),),
+                              
+                      
                         
                     ],
                   ),

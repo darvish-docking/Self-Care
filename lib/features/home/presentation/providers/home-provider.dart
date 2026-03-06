@@ -1,9 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/filter_tag_model.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/providers/data_provider.dart';
 
 
 class HomeProvider extends ChangeNotifier {
+
+  DataProvider? _dataProvider;
+
+  void updateData(DataProvider dataProvider) {
+
+  _dataProvider = dataProvider;
+
+  _allDoctors = dataProvider.doctors;
+
+  if (_allTests.isEmpty) {
+    _allTests = [
+      TestModel(
+        name: "Blood Test",
+        tags: ["blood"],
+      ),
+      TestModel(
+        name: "Heart Scan",
+        tags: ["heart"],
+      ),
+    ];
+  }
+
+  if (_allAppointments.isEmpty) {
+    _allAppointments = [
+      AppointmentModel(
+        title: "Heart Consultation",
+        tags: ["heart"],
+      ),
+      AppointmentModel(
+        title: "Dental Checkup",
+        tags: ["teeth"],
+      ),
+    ];
+  }
+
+  _applyFilters();
+}
+
+  List<DoctorModel> get allDoctors => _dataProvider?.doctors ?? [];
 
   /// -------------------------------
   /// UI STATES
@@ -66,74 +106,37 @@ class HomeProvider extends ChangeNotifier {
   /// INITIAL DATA (Sample Data)
   /// -------------------------------
 
-  void initializeData() {
+  // void initializeData() {
 
-    _allDoctors  = [
-  DoctorModel(
-    photo: 'assets/images/Dr.Floyd Miles.png',
-    name: "Dr. Floyd Miles",
-    department: "Pediatrics",
-    rating: 4.8,
-    reviews: 222,
-    fee: 95,
-    description: "Dr.Floyd provides comprehensive healthcare for infants, children, and adolescents. Services include routine health check-ups, immunizations, growth monitoring, and treatment of common childhood illnesses. The focus is on preventive care, early diagnosis, and ensuring healthy physical and emotional development.",
-    location: "3891 Ranchview Dr. Richardson,San Francisco 62639",
-    id: '2',
-    hospital: "Jane Cooper Medical College",
-    lastMessage: "Upload the latest lab report.",
-    lastMessageTime: DateTime.now().subtract(const Duration(hours: 1)),
-    unreadCount: 0,
-    isOnline: false, 
-    consultationDate: "23 MAr 2026",
-    consultationTime: "16:00", 
-    tags: ['children', 'pediatrics'],
-  
-  ),
-  DoctorModel(
-    id: '5',
-    photo: 'assets/images/Dr.Jane Cooper.png',
-    name: "Dr.Jane Cooper",
-    department: "Cardiologist",
-    rating: 4.7,
-    reviews: 44,
-    fee: 95,
-    description: "Dr.Jane Cooper specializes in diagnosing and treating heart-related conditions including hypertension, coronary artery disease, heart rhythm disorders, and heart failure. With extensive experience in preventive cardiology, the doctor focuses on early detection, lifestyle modification, and advanced cardiac care to ensure long-term heart health and improved quality of life for patients.",
-    location: "3891 Ranchview,San Francisco 62639",
-    hospital: "Cooper loop Medical College",
-    lastMessage: "How are you feeling today?",
-    lastMessageTime: DateTime.now().subtract(const Duration(days: 1)),
-    unreadCount: 5,
-    isOnline: true,
-    consultationDate: "23 Apr 2026",
-    consultationTime: "14:00",
-    tags: ['heart', 'cardiology'],
-  ),
-    ];
+  //   _allDoctors  = allDoctors;
 
-    _allTests = [
-      TestModel(
-        name: "Blood Test",
-        tags: ["blood", "lab"],
-      ),
-      TestModel(
-        name: "Heart Scan",
-        tags: ["heart", "scan"],
-      ),
-    ];
+  //   _allTests = [
+  //     TestModel(
+  //       name: "Blood Test",
+  //       tags: ["blood", "lab"],
+  //     ),
+  //     TestModel(
+  //       name: "Heart Scan",
+  //       tags: ["heart", "scan"],
+  //     ),
+  //   ];
 
-    _allAppointments = [
-      AppointmentModel(
-        title: "Heart Consultation",
-        tags: ["heart", "consultation"],
-      ),
-      AppointmentModel(
-        title: "Dental Checkup",
-        tags: ["teeth", "checkup"],
-      ),
-    ];
+  //   _allAppointments = [
+  //     AppointmentModel(
+  //       title: "Heart Consultation",
+  //       tags: ["heart", "consultation"],
+  //     ),
+  //     AppointmentModel(
+  //       title: "Dental Checkup",
+  //       tags: ["teeth", "checkup"],
+  //     ),
+  //   ];
 
-    _applyFilters();
-  }
+  //   _applyFilters();
+  // }
+
+
+
 
   /// -------------------------------
   /// CORE FILTER LOGIC
@@ -145,16 +148,16 @@ class HomeProvider extends ChangeNotifier {
     /// Filter Doctors
     _filteredDoctors = _allDoctors.where((doctor) {
 
-      final matchesSearch =
-          doctor.name.toLowerCase().contains(_searchQuery);
+  final matchesSearch =
+      doctor.name.toLowerCase().contains(_searchQuery);
 
-      final matchesTag =
-          _selectedTag.isEmpty ||
-          doctor.tags.contains(_selectedTag);
+  final matchesTag =
+      _selectedTag.isEmpty ||
+      doctor.tags.any((tag) => tag.toLowerCase() == _selectedTag);
 
-      return matchesSearch && matchesTag;
+  return matchesSearch && matchesTag;
 
-    }).toList();
+}).toList();
 
 
     /// Filter Tests
@@ -189,10 +192,10 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
 
     print("Search: $_searchQuery");
-print("Tag: $_selectedTag");
-print("Doctors: ${_filteredDoctors.length}");
-print("Tests: ${_filteredTests.length}");
-print("Appointments: ${_filteredAppointments.length}");
+    print("Tag: $_selectedTag");
+    print("Doctors: ${_filteredDoctors.length}");
+    print("Tests: ${_filteredTests.length}");
+    print("Appointments: ${_filteredAppointments.length}");
 
   }
 }

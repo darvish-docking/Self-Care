@@ -5,6 +5,7 @@ import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/pages/chat_screen.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/providers/data_provider.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/providers/home-provider.dart';
 
 
 
@@ -90,7 +91,7 @@ Widget build(BuildContext context) {
             /// ---------------- HEADER ----------------
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.04,
+                horizontal: screenWidth * 0.06,
                 vertical: 12,
               ),
               child: Column(
@@ -100,21 +101,24 @@ Widget build(BuildContext context) {
                   /// Back + Notification Row
                   Row(
                     children: [
-                      IconButton(
-                        icon: SvgPicture.asset(
-                          "assets/icons/left arrow.svg",
+                      Row(
+                      children: [
+                        Consumer<HomeProvider>(
+                builder: (context, provider, _) {
+                  return  InkWell(
+                          child: SvgPicture.asset("assets/icons/left arrow.svg",
                           width: 15,
-                          height: 15,
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                      const Text(
-                        "Back",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
+                          height: 15,),
+                          onTap: () {
+                            context.read<HomeProvider>().changeBottomIndex(0);
+                          },
+                        );  }),           
+                        
+                        Text(" Back", style: TextStyle(
+                          color: AppColors.textPrimary
+                        ),),
+                      ],
+                    ),
                       const Spacer(),
 
                       /// Notification with red dot
@@ -171,20 +175,23 @@ Widget build(BuildContext context) {
                     itemBuilder: (context, index) {
                       final doctor = doctorList.doctors[index];
                 
-                      return DoctorChatTile(
-                        doctor: doctor,
-                        onTap: () {
-                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  DoctorChatScreen(chatWithDoctor: doctor),
-                            ),
-                          );
-                        },
-                        onCall: () {
-                          print("Calling ${doctor.name}");
-                        },
+                      return Padding(
+                        padding:  EdgeInsets.zero,
+                        child: DoctorChatTile(
+                          doctor: doctor,
+                          onTap: () {
+                           Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    DoctorChatScreen(chatWithDoctor: doctor),
+                              ),
+                            );
+                          },
+                          onCall: () {
+                            print("Calling ${doctor.name}");
+                          },
+                        ),
                       );
                     },
                   ),
