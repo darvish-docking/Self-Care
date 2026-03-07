@@ -18,11 +18,22 @@ import 'package:selfcare_mobileapp/features/home/presentation/widgets/bottom_nav
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
 
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+
+    final homeProvider = context.watch<HomeProvider>();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (homeProvider.doctors.isEmpty) {
+        final dataProvider = context.read<DataProvider>();
+        homeProvider.updateData(dataProvider);
+      }
+    });
 
     return Scaffold(
       extendBody: true,
@@ -160,6 +171,7 @@ class LocationSection extends StatelessWidget {
 
 class SearchSection extends StatelessWidget {
   const SearchSection({super.key});
+  
 
   @override
   Widget build(BuildContext context,) {
@@ -234,11 +246,6 @@ class FilterChipsSection extends StatefulWidget {
 }
 
 class _FilterChipSectionState  extends State<FilterChipsSection>{
-// @override
-// void initState() {
-//   super.initState();
-//   // context.read<HomeProvider>().initializeData();
-// }
 
 
 

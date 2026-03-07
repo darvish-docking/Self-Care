@@ -6,13 +6,23 @@ import 'package:selfcare_mobileapp/features/home/presentation/providers/data_pro
 
 class HomeProvider extends ChangeNotifier {
 
+  HomeProvider() {
+    print("DEBUG: HomeProvider constructor called");
+  }
+
   DataProvider? _dataProvider;
 
+
+
+
   void updateData(DataProvider dataProvider) {
+print("HomeProvider.updateData CALLED");
 
   _dataProvider = dataProvider;
 
   _allDoctors = dataProvider.doctors;
+
+  print("Doctors received from DataProvider: ${_allDoctors.length}");
 
   if (_allTests.isEmpty) {
     _allTests = [

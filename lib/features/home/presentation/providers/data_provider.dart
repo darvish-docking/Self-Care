@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
 
 class DataProvider with ChangeNotifier {
+
+  DataProvider() {
+    print("DEBUG: DataProvider constructor called");
+    // Force ProxyProvider to update
+    notifyListeners();
+  }
   // Private lists
   // List<Doctor> _doctors = [];
   // List<LabTest> _labTests = [];
