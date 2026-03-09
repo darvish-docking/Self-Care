@@ -77,7 +77,6 @@ class HomePage extends StatelessWidget {
 
 
 
-
 class HeaderSection extends StatelessWidget {
     HeaderSection({super.key});
 
@@ -256,12 +255,16 @@ class _FilterChipSectionState  extends State<FilterChipsSection>{
     // final chips = ["#teeth", "#heart", "#eyes", "#cardiologist", "#ENT", "#skin", "#pediatrics", "#blood test", "#oncology", "#neurology"];
    final chips = [
     // FilterTagModel(label: "All", tag: ""),
-    FilterTagModel(label: "Teeth", tag: "#teeth"),
-    FilterTagModel(label: "Eyes", tag: "#eyes"),
-    FilterTagModel(label: "Heart", tag: "#heart"),
-    FilterTagModel(label: "Blood Test", tag: "#blood"),
-    FilterTagModel(label: "ENT", tag: "#ent"),
-    FilterTagModel(label: "Pediatrics", tag: "#pediatrics"),
+    FilterTagModel(label: "Teeth", tag: "teeth"),
+    FilterTagModel(label: "Dentist", tag: "dentist"),
+    FilterTagModel(label: "Eyes", tag: "eyes"),
+    FilterTagModel(label: "Opthalmologist", tag: "opthalmology"),
+    FilterTagModel(label: "Heart", tag: "heart"),
+    FilterTagModel(label: "Cardiologist", tag: "cardiology"),
+    FilterTagModel(label: "Blood Test", tag: "blood"),
+    FilterTagModel(label: "ENT", tag: "ent"),
+    FilterTagModel(label: "Pediatrics", tag: "pediatrics"),
+    FilterTagModel(label: "General", tag: "surgeon"),
   ];
 
 
@@ -285,7 +288,7 @@ class _FilterChipSectionState  extends State<FilterChipsSection>{
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  chip.tag,
+                  '#${chip.tag}',
                   style: TextStyle(
                     color: isSelected
                         ? AppColors.primary
@@ -384,10 +387,10 @@ class RecentSection extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Dr. Eleanor Pena",
-                                    style: TextStyle(color: AppColors.surface)),
+                                    style: TextStyle(color: AppColors.surface, fontSize: 16)),
                                 SizedBox(height: 4),
                                 Text("Pediatrics",
-                                    style: TextStyle(color: Colors.white70)),
+                                    style: TextStyle(color: Colors.white70, fontSize: 13)),
                                 SizedBox(height: 10),
                                 ],
                             ),
@@ -405,7 +408,7 @@ class RecentSection extends StatelessWidget {
                                         // const SizedBox(width: 6),
                                          Icon(
                                           Icons.star,
-                                          size: 15,
+                                          size: 14.5,
                                           color: Color.fromARGB(255, 247, 142, 177),
                                         ),
                                         // const SizedBox(width: 4),
@@ -556,6 +559,9 @@ class RecentSection extends StatelessWidget {
   }
 }
 
+
+
+
 class AppSvg {
   static const cardiology = "assets/icons/cardio.svg";
   static const dentist = "assets/icons/teeth.svg";
@@ -607,7 +613,7 @@ class CategoriesSection extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: categories.map((category) {
-              return _buildCategoryCard(category);
+              return _buildCategoryCard(category, context);
             }).toList(),
           ),
         )
@@ -615,57 +621,73 @@ class CategoriesSection extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryCard(CategoryModel category) {
+  Widget _buildCategoryCard(CategoryModel category, BuildContext context) {
+
+    final selectedCategory =
+    context.watch<HomeProvider>().selectedCategory;
+
+final isSelected =
+    selectedCategory == category.title.toLowerCase();
+
     return SizedBox(
       width: 150,
-    child: AspectRatio(
-      aspectRatio: 1.2,  // width : height ratio
-      child: Container(
-        margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.all(16),
-        width: 120,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade200,
-              blurRadius: 6,
-            )
-          ],
-        ),
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: category.backgroundColor,
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: SvgPicture.asset(
-                  category.iconPath,
-                  width: 24,
-                  height: 24,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Flexible(
-                child: Text(
-                  category.title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12,color: AppColors.textPrimary, fontWeight: FontWeight.w600),
-                  maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              
+    child: GestureDetector(
+      onTap: (){
+        context.read<HomeProvider>().selectCategory(category.title);
+      },
+      child: AspectRatio(
+        aspectRatio: 1.2,  // width : height ratio
+        child: Container(
+          margin: const EdgeInsets.only(right: 12),
+          padding: const EdgeInsets.all(16),
+          width: 120,
+          decoration: BoxDecoration(
+            color: isSelected ? category.backgroundColor : Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+    color: isSelected ? AppColors.doctor : Colors.transparent,
+    width: 2,
+  ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade200,
+                blurRadius: 6,
+              )
             ],
           ),
+          child: Center(
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: category.backgroundColor,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: SvgPicture.asset(
+                    category.iconPath,
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Flexible(
+                  child: Text(
+                    category.title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12,color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+                    maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                
+              ],
+            ),
+          ),
         ),
+      
       ),
-    
     )
     );
   }

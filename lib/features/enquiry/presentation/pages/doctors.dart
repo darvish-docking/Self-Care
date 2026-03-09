@@ -7,6 +7,7 @@ import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/book_appo
 import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/doctor_one.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/category_models.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/models/filter_tag_model.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/providers/data_provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/providers/home-provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/widgets/bottom_nav_bar.dart';
@@ -21,38 +22,50 @@ class DoctorPage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return ChangeNotifierProvider(
-      create: (_) => HomeProvider(),
-      child: Scaffold(
-        extendBody: true,
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: EdgeInsets.only(
-                bottom: screenHeight * 0.12,
-                left: screenWidth * 0.04,
-                right: screenWidth * 0.04,
-                top: screenHeight * 0.05,
-              ),
-              child:  Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  HeaderSection(),
-                  SizedBox(height: 12),
-                  SearchSection(),
-                  SizedBox(height: 16),
-                  FilterChipsSection(),
-                  SizedBox(height: 20),
-                  CategoriesSection(),
-                  SizedBox(height: 24),
-                  PopularDoctorsSection(),
-                ],
-              ),
+    // final homeProvider = context.watch<HomeProvider>();
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+
+  final homeProvider = context.read<HomeProvider>();
+  final dataProvider = context.read<DataProvider>();
+
+  // Reset previous state
+  homeProvider.clearFilters();
+
+  // Reload base data
+  homeProvider.updateData(dataProvider);
+
+});
+
+    return Scaffold(
+      extendBody: true,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: EdgeInsets.only(
+              bottom: screenHeight * 0.12,
+              left: screenWidth * 0.04,
+              right: screenWidth * 0.04,
+              top: screenHeight * 0.05,
             ),
-          ],
-        ),
-        // bottomNavigationBar: const BottomNavBar(),
+            child:  Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                HeaderSection(),
+                SizedBox(height: 12),
+                SearchSection(),
+                SizedBox(height: 16),
+                FilterChipsSection(),
+                SizedBox(height: 20),
+                CategoriesSection(),
+                SizedBox(height: 24),
+                PopularDoctorsSection(),
+              ],
+            ),
+          ),
+        ],
       ),
+      // bottomNavigationBar: const BottomNavBar(),
     );
   }
 }
@@ -198,27 +211,44 @@ class SearchSection extends StatelessWidget {
 
 
 
-
-class FilterChipsSection extends StatelessWidget {
+class FilterChipsSection extends StatefulWidget {
   const FilterChipsSection({super.key});
+
+  @override
+  State<FilterChipsSection> createState() => _FilterChipSectionState();
+}
+
+class _FilterChipSectionState  extends State<FilterChipsSection>{
 
   @override
   Widget build(BuildContext context) {
 
     final provider = context.watch<HomeProvider>();
-    final chips = ["#teeth", "#heart", "#eyes", "#surgeon", "#ENT", "#skin", "#pulmonology", "#blood test", "#oncology", "#neurology"];
-
+    // final chips = ["#teeth", "#heart", "#eyes", "#cardiologist", "#ENT", "#skin", "#pediatrics", "#blood test", "#oncology", "#neurology"];
+   final chips = [
+    // FilterTagModel(label: "All", tag: ""),
+    FilterTagModel(label: "Teeth", tag: "teeth"),
+    FilterTagModel(label: "Dentist", tag: "dentist"),
+    FilterTagModel(label: "Eyes", tag: "eyes"),
+    FilterTagModel(label: "Opthalmologist", tag: "opthalmology"),
+    FilterTagModel(label: "Heart", tag: "heart"),
+    FilterTagModel(label: "Cardiologist", tag: "cardiology"),
+    FilterTagModel(label: "Blood Test", tag: "blood"),
+    FilterTagModel(label: "ENT", tag: "ent"),
+    FilterTagModel(label: "Pediatrics", tag: "pediatrics"),
+    FilterTagModel(label: "General", tag: "surgeon"),
+  ];
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: chips.map((chip) {
-          final isSelected = provider.selectedTag == chip;
+          final isSelected = provider.selectedTag == chip.tag;
 
           return Padding(
             padding: const EdgeInsets.only(right: 8),
             child: GestureDetector(
               onTap: () {
-  context.read<HomeProvider>().selectTag("heart");
+  context.read<HomeProvider>().selectTag(chip.tag);
 },
               child: Container(
                 padding: const EdgeInsets.symmetric(
@@ -228,7 +258,7 @@ class FilterChipsSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  chip,
+                  '#${chip.tag}',
                   style: TextStyle(
                     color: isSelected
                         ? AppColors.primary
@@ -277,127 +307,85 @@ class CategoriesSection extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: categories.map((category) {
-              return _buildCategoryCard(category);
+              return _buildCategoryCard(category, context);
             }).toList(),
           ),
         );
         
   }
 
-  Widget _buildCategoryCard(CategoryModel category) {
+  Widget _buildCategoryCard(CategoryModel category, BuildContext context) {
+
+    final selectedCategory =
+    context.watch<HomeProvider>().selectedCategory;
+
+    final isSelected =
+    selectedCategory == category.title.toLowerCase();
+
     return SizedBox(
       width: 150,
-    child: AspectRatio(
-      aspectRatio: 1.2,  // width : height ratio
-      child: Container(
-        margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.all(16),
-        width: 120,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade200,
-              blurRadius: 6,
-            )
-          ],
-        ),
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: category.backgroundColor,
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: SvgPicture.asset(
-                  category.iconPath,
-                  width: 24,
-                  height: 24,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Flexible(
-                child: Text(
-                  category.title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12,color: AppColors.textPrimary, fontWeight: FontWeight.w600),
-                  maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              
+    child: GestureDetector(
+      onTap: (){
+        context.read<HomeProvider>().selectCategory(category.title);
+      },
+      child: AspectRatio(
+        aspectRatio: 1.2,  // width : height ratio
+        child: Container(
+          margin: const EdgeInsets.only(right: 12),
+          padding: const EdgeInsets.all(16),
+          width: 120,
+          decoration: BoxDecoration(
+            color: isSelected ? category.backgroundColor : Colors.white,
+            border: Border.all(
+              color: isSelected ? AppColors.doctor : Colors.transparent,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade200,
+                blurRadius: 6,
+              )
             ],
           ),
+          child: Center(
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: category.backgroundColor,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: SvgPicture.asset(
+                    category.iconPath,
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Flexible(
+                  child: Text(
+                    category.title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12,color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+                    maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                
+              ],
+            ),
+          ),
         ),
+      
       ),
-    
     )
     );
   }
 
 }
-
-
-// final doctors = [
-//   DoctorModel(
-//     photo: 'assets/images/Dr.Floyd Miles.png',
-//     name: "Dr. Floyd Miles",
-//     department: "Pediatrics",
-//     rating: 4.8,
-//     reviews: 222,
-//     fee: 95,
-//     description: "Dr.Floyd provides comprehensive healthcare for infants, children, and adolescents. Services include routine health check-ups, immunizations, growth monitoring, and treatment of common childhood illnesses. The focus is on preventive care, early diagnosis, and ensuring healthy physical and emotional development.",
-//   ),
-//   DoctorModel(
-//     photo: 'assets/images/Dr.Marvin Mckinney.png',
-//     name: "Dr.Marvin Mckinney",
-//     department: "Nephrologist",
-//     rating: 4.1,
-//     reviews: 22,
-//     fee: 80,
-//     description: "Dr.Marvin is experienced in managing kidney-related disorders such as chronic kidney disease, kidney infections, electrolyte imbalances, and hypertension-related renal complications. The approach includes accurate diagnosis, personalized treatment plans, and patient education to help maintain optimal kidney function and prevent long-term complications.",
-//   ),
-//   DoctorModel(
-//     photo: 'assets/images/Dr.Guy Hawkins.png',
-//     name: "Dr.Guy Hawkins",
-//     department: "Dentist",
-//     rating: 4.9,
-//     reviews: 85,
-//     fee: 85,
-//     description: "Dr.Guy provides comprehensive dental care including routine check-ups, cavity treatment, root canal procedures, cosmetic dentistry, and preventive oral care. The focus is on maintaining oral hygiene, restoring dental health, and ensuring patient comfort through modern and minimally invasive treatment techniques.",
-//   ),
-//   DoctorModel(
-//     photo: 'assets/images/Dr.Jane Cooper.png',
-//     name: "Dr.Jane Cooper",
-//     department: "Cardiologist",
-//     rating: 4.7,
-//     reviews: 44,
-//     fee: 95,
-//     description: "Dr.Jane Cooper specializes in diagnosing and treating heart-related conditions including hypertension, coronary artery disease, heart rhythm disorders, and heart failure. With extensive experience in preventive cardiology, the doctor focuses on early detection, lifestyle modification, and advanced cardiac care to ensure long-term heart health and improved quality of life for patients.",
-//   ),
-//   DoctorModel(
-//     photo: 'assets/images/Dr.Jacob Jones.png',
-//     name: "Dr.Jacob Jones",
-//     department: "Nephrologyst",
-//     rating: 5.0,
-//     reviews: 101,
-//     fee: 90,
-//     description: "Dr.Jacob Jones is experienced in managing kidney-related disorders such as chronic kidney disease, kidney infections, electrolyte imbalances, and hypertension-related renal complications. The approach includes accurate diagnosis, personalized treatment plans, and patient education to help maintain optimal kidney function and prevent long-term complications.",
-//   ),
-//   DoctorModel(
-//     photo: 'assets/images/Dr. Suvannah Nguyen.png',
-//     name: "Dr. Suvannah Nguyen",
-//     department: "Urologist",
-//     rating: 4.8,
-//     reviews: 168,
-//     fee: 88,
-//     description: "Dr.Suvannah specializes in diagnosing and treating urinary tract and male reproductive system disorders, including kidney stones, urinary infections, prostate conditions, and bladder dysfunction. The treatment approach emphasizes accurate evaluation, advanced medical procedures, and patient-centered care for long-term wellness.",
-//   ),
-// ];
 
 
 
@@ -417,14 +405,14 @@ class PopularDoctorsSection extends StatelessWidget {
         
         const SizedBox(height: 4),
         
-        Consumer<DataProvider>(
+        Consumer<HomeProvider>(
           builder: (context, doctor, _) {
             return ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(), // important if inside another scroll
-              itemCount: doctor.dLength,
+              itemCount: doctor.doctors.length,
               itemBuilder: (context, index) {
-                final selectedDoctor = doctor.doctors.elementAt(index);
+                final selectedDoctor = doctor.doctors[index];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: _buildDoctorCard(context, selectedDoctor),

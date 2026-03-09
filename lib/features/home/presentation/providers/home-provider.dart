@@ -16,7 +16,7 @@ class HomeProvider extends ChangeNotifier {
 
 
   void updateData(DataProvider dataProvider) {
-print("HomeProvider.updateData CALLED");
+  print("HomeProvider.updateData CALLED");
 
   _dataProvider = dataProvider;
 
@@ -82,6 +82,11 @@ print("HomeProvider.updateData CALLED");
 
   String get selectedTag => _selectedTag;
 
+  String _selectedCategory = '';
+  String get selectedCategory => _selectedCategory;
+
+
+
   void updateSearch(String query) {
     _searchQuery = query.trim().toLowerCase();
     _applyFilters();
@@ -95,6 +100,21 @@ print("HomeProvider.updateData CALLED");
     }
     _applyFilters();
   }
+
+
+  void selectCategory(String category) {
+    if (_selectedCategory == category) {
+      _selectedCategory = ''; // toggle off
+    } else {
+      _selectedCategory = category.toLowerCase();
+    }
+
+    _applyFilters();
+  }
+
+
+
+
 
   /// -------------------------------
   /// DATA LISTS
@@ -158,14 +178,18 @@ print("HomeProvider.updateData CALLED");
     /// Filter Doctors
     _filteredDoctors = _allDoctors.where((doctor) {
 
-  final matchesSearch =
+    final matchesSearch =
       doctor.name.toLowerCase().contains(_searchQuery);
 
-  final matchesTag =
+    final matchesTag =
       _selectedTag.isEmpty ||
       doctor.tags.any((tag) => tag.toLowerCase() == _selectedTag);
 
-  return matchesSearch && matchesTag;
+    final matchesCategory =
+    _selectedCategory.isEmpty ||
+    doctor.department.toLowerCase() == _selectedCategory;
+
+    return matchesSearch && matchesTag && matchesCategory;
 
 }).toList();
 
@@ -208,4 +232,19 @@ print("HomeProvider.updateData CALLED");
     print("Appointments: ${_filteredAppointments.length}");
 
   }
+
+
+  void clearFilters() {
+  _searchQuery = '';
+  _selectedTag = '';
+  _selectedCategory = '';
+
+  _filteredDoctors = _allDoctors;
+  _filteredTests = _allTests;
+  _filteredAppointments = _allAppointments;
+
+  notifyListeners();
+}
+
+
 }
