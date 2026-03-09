@@ -8,18 +8,24 @@ import '../entities/registration_entity.dart';
 abstract class AuthRepository {
 
   Future<void> register(RegistrationEntity entity);
-  
-  Future<AppUser> registerPatient({
-    required String email,
-    required String password,
-    required String displayName,
-  });
 
-  Future<AppUser> registerDoctor({
+  Future<void> registerUser({
     required String email,
     required String password,
-    required String displayName,
+    required String fullName,
   });
+  
+  // Future<AppUser> registerPatient({
+  //   required String email,
+  //   required String password,
+  //   required String fullName,
+  // });
+
+  // Future<AppUser> registerDoctor({
+  //   required String email,
+  //   required String password,
+  //   required String fullName,
+  // });
 
   Future<AppUser> login({
     required String email,

@@ -33,41 +33,38 @@ class AppProviders {
     },
   ),
 
-    ChangeNotifierProvider<SignupFormProvider>(create: (_) => SignupFormProvider()),
+
+  /// ---------- AUTH DEPENDENCIES ----------
+    Provider<AuthRemoteDatasource>(               // data layer
+      create: (_) => AuthRemoteDatasource(
+        FirebaseAuth.instance,
+        FirebaseFirestore.instance,
+      ),
+    ),
+
+    Provider<AuthRepository>(                     // domain layer
+      create: (context) => AuthRepositoryImpl(    // data layer
+        context.read<AuthRemoteDatasource>(),     // data layer
+      ),
+    ),
+
+    Provider<RegisterUserUseCase>(                 // domain layer
+      create: (context) => RegisterUserUseCase(    // domain layer
+        context.read<AuthRepository>(),
+      ),
+    ),
+
+    ChangeNotifierProvider<SignupFormProvider>(create: (context) => SignupFormProvider(context.read<RegisterUserUseCase>(),)),
+
     ChangeNotifierProvider<SigninFormProvider>(create: (_) => SigninFormProvider()),
   
     ChangeNotifierProvider<OtpProvider>(create: (_) => OtpProvider()),
 
-
-     ChangeNotifierProvider<AppointmentProvider>(create: (_) =>AppointmentProvider()),
+    ChangeNotifierProvider<AppointmentProvider>(create: (_) =>AppointmentProvider()),
 
     ChangeNotifierProvider<PaymentProvider>(create: (_) =>PaymentProvider()),
 
     ChangeNotifierProvider<CallProvider>(create: (_) =>CallProvider()),
-
-
-    
-
-
-      Provider<AuthRemoteDatasource>(
-        create: (_) => AuthRemoteDatasource(
-          FirebaseAuth.instance,
-          FirebaseFirestore.instance,
-        ),
-      ),
-
-
-      Provider<AuthRepository>(
-        create: (context) => AuthRepositoryImpl(
-          context.read<AuthRemoteDatasource>(),
-        ),
-      ),
-
-      Provider<RegisterUserUseCase>(
-        create: (context) => RegisterUserUseCase(
-          context.read<AuthRepository>(),
-        ),
-      ),
 
   ];
 }

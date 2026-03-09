@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 
 import 'package:selfcare_mobileapp/features/auth/domain/entities/user_role.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/repositories/auth_repository.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/usecases/register_user_usercases.dart';
 
 
 class SignupFormProvider extends ChangeNotifier {
+
+  final RegisterUserUseCase _registerUserUseCase;
+
+  SignupFormProvider(this._registerUserUseCase);
+
 
 //userrole
   UserRole _selectedUserRole = UserRole.patient;
@@ -273,15 +280,32 @@ Country? _selectedCountry;
       return false;
     }
 
+    try{
+
     _isLoading = true;
     notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 2));
+    await _registerUserUseCase(
+        email: _email,
+        password: _password,
+        fullName: _fullName,
+      );
 
-    _isLoading = false;
-    notifyListeners();
+      return true;} catch (e){
+        print("Signup error: $e");
+      return false;
 
-    return true;
+    } finally {
+
+      _isLoading = false;
+      notifyListeners();
+
+    }
+
+    // _isLoading = false;
+    // notifyListeners();
+
+    // return true;
   }
 
 

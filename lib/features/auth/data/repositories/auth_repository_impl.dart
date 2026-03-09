@@ -4,44 +4,57 @@ import 'package:selfcare_mobileapp/features/auth/domain/entities/registration_en
 import 'package:selfcare_mobileapp/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDatasource _remoteDatasource;
+  final AuthRemoteDatasource remoteDatasource;
 
-  AuthRepositoryImpl(this._remoteDatasource);
+  AuthRepositoryImpl(this.remoteDatasource);
 
   @override
-  Future<AppUser> registerPatient({
+  Future<void> registerUser({
     required String email,
     required String password,
-    required String displayName,
-  }) {
-    return _remoteDatasource.register(
+    required String fullName,
+  }) async {
+    await remoteDatasource.registerUser(
       email: email,
       password: password,
-      displayName: displayName,
-      role: 'patient',
+      fullName: fullName,
     );
   }
 
-  @override
-  Future<AppUser> registerDoctor({
-    required String email,
-    required String password,
-    required String displayName,
-  }) {
-    return _remoteDatasource.register(
-      email: email,
-      password: password,
-      displayName: displayName,
-      role: 'doctor',
-    );
-  }
+  // @override
+  // Future<AppUser> registerPatient({
+  //   required String email,
+  //   required String password,
+  //   required String fullName,
+  // }) {
+  //   return _remoteDatasource.registerPatient(
+  //     email: email,
+  //     password: password,
+  //     displayName: fullName,
+  //     role: 'patient',
+  //   );
+  // }
+
+  // @override
+  // Future<AppUser> registerDoctor({
+  //   required String email,
+  //   required String password,
+  //   required String fullName,
+  // }) {
+  //   return _remoteDatasource.registerDoctor(
+  //     email: email,
+  //     password: password,
+  //     displayName: fullName,
+  //     role: 'doctor',
+  //   );
+  // }
 
   @override
   Future<AppUser> login({
     required String email,
     required String password,
   }) {
-    return _remoteDatasource.login(
+    return remoteDatasource.login(
       email: email,
       password: password,
     );
@@ -49,7 +62,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> logout() {
-    return _remoteDatasource.logout();
+    return remoteDatasource.logout();
   }
 
   @override
