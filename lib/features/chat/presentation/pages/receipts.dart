@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/models/receipts_model.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/providers/home-provider.dart';
 
 class ReceiptsPage extends StatelessWidget {
   const ReceiptsPage({super.key});
@@ -60,29 +62,28 @@ class ReceiptsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
+              Row(
+                children: [
               /// 🔙 Back Button
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Row(
-                  children: [
-                    IconButton(
-                  icon: SvgPicture.asset("assets/icons/left arrow.svg",
-                  width: 15,
-                  height: 15,),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                    SizedBox(width: width * 0.01),
+              Consumer<HomeProvider>(
+                builder: (context, provider, _) {
+                  return InkWell(
+                    onTap: () {context.read<HomeProvider>().changeBottomIndex(0);},
+                    child: SvgPicture.asset("assets/icons/left arrow.svg",
+                      width: 15,
+                      height: 15,
+                    ),);
+                }
+              ),
                     const Text(
-                      "Back",
+                      " Back",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
                       ),
                     ),
-                  ],
-                ),
-              ),
+                  ],),
+              
 
               SizedBox(height: height * 0.02),
 
@@ -135,7 +136,7 @@ class DoctorReceiptCard extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
-      padding: EdgeInsets.all(width * 0.04),
+      // padding: EdgeInsets.all(width * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -222,7 +223,7 @@ class ReceiptItemContainer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
       padding: EdgeInsets.all(width * 0.035),
-      width: width,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(14),
@@ -236,14 +237,7 @@ class ReceiptItemContainer extends StatelessWidget {
               color: const Color.fromARGB(255, 245, 245, 153),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: SvgPicture.asset('assets/icons/pills.svg',
-              width: width * 0.04,
-              height: height * 0.04,
-              colorFilter: ColorFilter.mode(
-                                            AppColors.surface,
-                                            BlendMode.srcIn,
-                                          ),
-            ),
+            child: Image.asset('assets/images/pill.png')
           ),
 
           SizedBox(width: width * 0.04),
@@ -294,6 +288,7 @@ class NoteContainer extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
+      width: double.infinity,
       padding: EdgeInsets.all(width * 0.04),
       decoration: BoxDecoration(
         color: AppColors.surface,

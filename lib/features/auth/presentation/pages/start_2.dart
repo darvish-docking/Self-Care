@@ -8,14 +8,19 @@ class StartPage2 extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     // TODO: implement build
     return Scaffold(
       body: Column(
         children: [
 
           /// 🔹 Top Image Section (3/4 height)
-          Expanded(
-            flex: 3,
+          SizedBox(
+            height: height * 0.75,
+            width: width,
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -23,7 +28,7 @@ class StartPage2 extends StatelessWidget{
                 // Background Image
                 Image.asset(
                   'assets/images/image.png',
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
             
                 // Logo Overlay

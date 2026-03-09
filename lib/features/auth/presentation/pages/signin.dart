@@ -14,6 +14,10 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
@@ -29,7 +33,7 @@ class SignInPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 40),
+                        SizedBox(height: height * 0.01),
                         Center(
                           child: Image.asset(
                             'assets/images/logo medicine 1 4 5.png',
@@ -47,7 +51,7 @@ class SignInPage extends StatelessWidget {
                         ),
                         SizedBox(height: 40),
                         _SignInForm(),
-                        SizedBox(height: 40),
+                        // SizedBox(height: 40),
                       ],
                     ),
                   ),
@@ -69,6 +73,9 @@ class _SignInForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    
   //   final hasError = context.select<SigninFormProvider, bool>(
   // (p) => p.showTermsError,
 // );
@@ -137,45 +144,59 @@ class _SignInForm extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 200),
+             SizedBox(height: height * 0.25),
 
             // SIGN in BUTTON (70%)
-            SizedBox(
-              width: buttonWidth,
-              height: 48,
-              child: Container(
+            Consumer<SigninFormProvider>(
+              builder: (context, provider, _) {
+                return SizedBox(
+                  width: buttonWidth,
+                  height: 48,
+                  child: Container(
+                    
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: AppColors.primary,),
+                    child: ElevatedButton(
+                      
+                      onPressed: () async{
+                        final provider = context.read<SigninFormProvider>();
                 
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: AppColors.primary,),
-                child: ElevatedButton(
-                  
-                  onPressed: () async{
-                    final provider = context.read<SigninFormProvider>();
+                          final isSuccess = await provider.submit();
+                
+                          if (isSuccess && context.mounted) {
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(builder: (_) => const MainScreen()),
+                            // );
 
-                      final isSuccess = await provider.submit();
-
-                      if (isSuccess && context.mounted) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => const MainScreen()),
-                        );
-                      }
-                  },
-                  child: const Text("Sign In",
-                  style: TextStyle(
-                    color: AppColors.surface,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold
-                  ),),
-                  
-                ),
-              ),
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (_) => const MainScreen()),
+                              (route) => false,
+                            );
+                          }
+                      },
+                      child: provider.isLoading
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        )
+                                      : const Text("Sign In",
+                      style: TextStyle(
+                        color: AppColors.surface,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold
+                      ),),
+                      
+                    ),
+                  ),
+                );
+              }
             ),
 
             const SizedBox(height: 16),
 
-            // SIGN IN LINK
+            // SIGN up LINK
             RichText(
                     text: TextSpan(
                       text: "Don't have an account? ",

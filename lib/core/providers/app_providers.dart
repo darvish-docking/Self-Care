@@ -22,16 +22,24 @@ class AppProviders {
 
   static List<SingleChildWidget> providers = [
 
+    ChangeNotifierProvider<DataProvider>(create: (_) => DataProvider(),),
+
+    ChangeNotifierProvider<HomeProvider>(
+    create: (context) {
+      final dataProvider = context.read<DataProvider>();
+      final homeProvider = HomeProvider();
+      homeProvider.updateData(dataProvider);
+      return homeProvider;
+    },
+  ),
+
     ChangeNotifierProvider<SignupFormProvider>(create: (_) => SignupFormProvider()),
     ChangeNotifierProvider<SigninFormProvider>(create: (_) => SigninFormProvider()),
   
     ChangeNotifierProvider<OtpProvider>(create: (_) => OtpProvider()),
 
-    ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
 
-    ChangeNotifierProvider<AppointmentProvider>(create: (_) =>AppointmentProvider()),
-
-    ChangeNotifierProvider<DataProvider>(create: (_) =>DataProvider()),
+     ChangeNotifierProvider<AppointmentProvider>(create: (_) =>AppointmentProvider()),
 
     ChangeNotifierProvider<PaymentProvider>(create: (_) =>PaymentProvider()),
 

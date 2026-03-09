@@ -127,8 +127,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
   @override
   Widget build(BuildContext context) {
 
-      final screenWidth = MediaQuery.of(context).size.width;
-  final screenheight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenheight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -181,6 +181,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
               controller: _textController,
               onSend: _sendMessage,
             ),
+
+            SizedBox(height: screenheight * 0.02,)
                     ]),
           )
         
@@ -210,6 +212,10 @@ class DoctorChatHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: const BoxDecoration(
@@ -225,23 +231,22 @@ class DoctorChatHeader extends StatelessWidget {
       child: Column(
         children: [
           /// Back
-              InkWell(
-                onTap: onBack,
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: SvgPicture.asset("assets/icons/left arrow.svg",
-                      width: 15,
-                      height: 15,),
-                      onPressed: () => Navigator.pop(context),
-                    ),                
-                    SizedBox(width: 4),
-                    Text("Back", style: TextStyle(
-                      color: AppColors.textPrimary
-                    ),),
-                  ],
-                ),
+              Row(
+                children: [
+                  InkWell(
+                    child: SvgPicture.asset("assets/icons/left arrow.svg",
+                    width: 15,
+                    height: 15,),
+                    onTap: () => Navigator.pop(context),
+                  ),                
+                  
+                  Text(" Back", style: TextStyle(
+                    color: AppColors.textPrimary
+                  ),),
+                ],
               ),
+
+              SizedBox(height: height * 0.015),
           
           Row(
             children: [
@@ -438,7 +443,7 @@ class MessageInputBar extends StatelessWidget {
                         minLines: 1,
                         maxLines: 5,
                         decoration: const InputDecoration(
-                          hintText: "Type a message...",
+                          hintText: "Write a message",
                           hintStyle: TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.w600),
                           border: InputBorder.none,
                           isCollapsed: true,
@@ -446,19 +451,21 @@ class MessageInputBar extends StatelessWidget {
                         ),
                       ),
                     ),
-
+                    
                     /// Mic Icon
                     IconButton(
-                      icon: const Icon(Icons.mic_none),
+                      icon: SvgPicture.asset('assets/icons/Group.svg'),
                       onPressed: () {},
                       color: AppColors.textSecondary,
+                      
                     ),
 
                     /// Attach Icon
                     IconButton(
-                      icon: const Icon(Icons.attach_file),
+                      icon: SvgPicture.asset('assets/icons/Vector-9.svg'),
                       onPressed: () {},
                       color: AppColors.textSecondary,
+                      
                     ),
                   ],
                 ),
@@ -477,9 +484,11 @@ class MessageInputBar extends StatelessWidget {
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Icon(
-                  Icons.send,
-                  color: AppColors.surface,
+                child:  Center(
+                  child: SvgPicture.asset('assets/icons/Vector-8.svg',
+                  // width: 5,
+                  // height: 5
+                  ),
                 ),
               ),
             ),

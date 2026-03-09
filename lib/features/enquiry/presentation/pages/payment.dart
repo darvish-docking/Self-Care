@@ -40,14 +40,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  IconButton(
-                    icon: SvgPicture.asset("assets/icons/left arrow.svg",
+                  InkWell(
+                    child: SvgPicture.asset("assets/icons/left arrow.svg",
                     width: 15,
                     height: 15,),
-                    onPressed: () => Navigator.pop(context),
+                    onTap: () => Navigator.pop(context),
                   ),
                   const Text(
-                    "Back",
+                    " Back",
                     style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
                   ),
                 ],

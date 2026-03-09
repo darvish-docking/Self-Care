@@ -242,7 +242,7 @@ final registration = RegistrationEntity(
                         builder: (context, provider, _) {
                           return SizedBox(
                             width: screenWidth * 0.5,
-                            height: screenHeight * 0.05,
+                            height: screenHeight * 0.07,
                             child: ElevatedButton(
                               onPressed: () async {
                                 if (provider.isVerifying) return;
@@ -272,7 +272,7 @@ final registration = RegistrationEntity(
                                   ? const CircularProgressIndicator(
                                       color: Colors.white,
                                     )
-                                  : const Text("Verify"),
+                                  : const Text("Verify", style: TextStyle(fontSize: 16),),
                             ),
                           );
                         }

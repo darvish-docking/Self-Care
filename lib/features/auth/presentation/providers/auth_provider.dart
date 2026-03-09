@@ -45,66 +45,75 @@ final dayController = TextEditingController();
   final monthFocus = FocusNode();
   final yearFocus = FocusNode();
 
-  void onChanged() => notifyListeners();
-
-  String? get dayError {
-  if (!_isSubmitted && dayController.text.isEmpty) return null;
-  return _validateDay(_day);
-}
-  String? get monthError {
-  if (!_isSubmitted && monthController.text.isEmpty) return null;
-  return _validateMonth(_month);
-}
-  String? get yearError {
-  if (!_isSubmitted && yearController.text.isEmpty) return null;
-  return _validateYear(_year);
-}
-
-
-  DateTime? get selectedDob {
-    if (dayError != null || monthError != null || yearError != null) return null;
-
-    final d = _day;
-    final m = _month;
-    final y = _year;
-    final date = DateTime(y!, m!, d!);
-
-    // Prevent invalid combinations like 31 Feb
-    if (date.year != y || date.month != m || date.day != d) {
-      return null;
+  void onChanged() { 
+    validateDob();
+    notifyListeners();
     }
 
-    return date;
+  String? _dayError ;
+  String?  _monthError;
+  String? _yearError;
+
+  String? get dayError => _dayError;
+  String? get monthError => _monthError;
+  String? get yearError => _yearError;
+
+  void validateDob() {
+  _dayError = _validateDay(_day);
+  _monthError = _validateMonth(_month);
+  _yearError = _validateYear(_year);
+
+  notifyListeners();
+
+}
+
+
+DateTime? get selectedDob {
+  // If any field is null, return null immediately
+  if (_day == null || _month == null || _year == null) {
+    return null;
   }
 
+  // Validate ranges
+  if (_validateDay(_day) != null ||
+      _validateMonth(_month) != null ||
+      _validateYear(_year) != null) {
+    return null;
+  }
 
-  // bool get isDobValid =>
-  //     dayError == null &&
-  //     monthError == null &&
-  //     yearError == null &&
-  //     dayController.text.isNotEmpty &&
-  //     monthController.text.isNotEmpty &&
-  //     yearController.text.isNotEmpty;
+  final date = DateTime(_year!, _month!, _day!);
+
+  // Prevent invalid combinations like 31 Feb
+  if (date.year != _year ||
+      date.month != _month ||
+      date.day != _day) {
+    return null;
+  }
+
+  return date;
+}
+
+
 
   String? _validateDay(int? d) {
-    if (d == null) return null;
-    if (d < 1 || d > 31) return "1-31";
-    return null;
-  }
+  if (d == null) return "Required";
+  if (d < 1 || d > 31) return "1-31";
+  return null;
+}
 
-  String? _validateMonth(int? m) {
-    if (m == null) return null;
-    if (m < 1 || m > 12) return "1-12";
-    return null;
-  }
+String? _validateMonth(int? m) {
+  if (m == null) return "Required";
+  if (m < 1 || m > 12) return "1-12";
+  return null;
+}
 
-  String? _validateYear(int? y) {
-    if (y == null) return null;
-    if (y < 1900 || y > DateTime.now().year) {
-      return "Invalid";
-    }
-    return null;
+String? _validateYear(int? y) {
+  if (y == null) return "Required";
+  if (y < 1900 || y > DateTime.now().year) {
+    return "Invalid";
   }
+  return null;
+}
 
 
 
@@ -131,25 +140,15 @@ Country? _selectedCountry;
     }
   }
 
-bool _isSubmitted = false;
-bool get isSubmitted => _isSubmitted;
 
 
   bool validateOnContinue() {
-    // print('Role: $selectedUserRole - gender: ${selectedGender?.label} - DOB: ${selectedDob} - Location: ${selectedCountry}');
-    _isSubmitted = true;
 
     validateCountry();   // triggers country error if null
-    notifyListeners();
-
-    if (selectedDob == null){
-      _validateDay(_day);
-      _validateMonth(_month);
-      _validateYear(_year);
-
-      // notifyListeners();
-    }
-
+    validateDob();
+    
+    print('selectedDob = $selectedDob');
+    
 
     return selectedDob != null &&
            selectedCountry != null ;

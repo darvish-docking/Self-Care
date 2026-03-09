@@ -10,14 +10,17 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return 
     ClipRRect(
       borderRadius: const BorderRadius.vertical(
     top: Radius.circular(24),
   ),
-      child: BottomAppBar(
-        child: SizedBox(
-          // height: 50,
+      child: SizedBox(
+        height: height * 0.13,
+        child: BottomAppBar(
           child: Row(
             mainAxisAlignment:
                 MainAxisAlignment.spaceAround,
@@ -30,9 +33,11 @@ class BottomNavBar extends StatelessWidget {
                   color: AppColors.primary,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.add,
-                    color: Colors.white,
-                    size: 35.0,),
+                child: Center(
+                  child: const Icon(Icons.add,
+                      color: Colors.white,
+                      size: 35.0,),
+                ),
               ),
               _buildIcon("assets/icons/messages.svg", 3, context),
               _buildIcon("assets/icons/profile.svg", 4, context),

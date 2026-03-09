@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
 
 class DataProvider with ChangeNotifier {
+
+  DataProvider() {
+    print("DEBUG: DataProvider constructor called");
+    // Force ProxyProvider to update
+    notifyListeners();
+  }
   // Private lists
   // List<Doctor> _doctors = [];
   // List<LabTest> _labTests = [];
@@ -25,7 +31,8 @@ final _doctors = [
     unreadCount: 0,
     isOnline: false, 
     consultationDate: "23 MAr 2026",
-    consultationTime: "16:00",
+    consultationTime: "16:00", 
+    tags: ['children', 'pediatrics'],
   
   ),
   DoctorModel(
@@ -45,6 +52,7 @@ final _doctors = [
     isOnline: true,
     consultationDate: "23 May 2026",
     consultationTime: "10:00",
+    tags: ['nephrologist'],
   ),
   DoctorModel(
     photo: 'assets/images/Dr.Guy Hawkins.png',
@@ -62,6 +70,7 @@ final _doctors = [
     isOnline: true,
     consultationDate: "02 MAr 2026",
     consultationTime: "11:00",
+    tags: ['teeth', 'dentist'],
     ),
   DoctorModel(
     id: '5',
@@ -80,6 +89,7 @@ final _doctors = [
     isOnline: true,
     consultationDate: "23 Apr 2026",
     consultationTime: "14:00",
+    tags: ['heart', 'cardiology'],
   ),
   DoctorModel(
     id: '4',
@@ -98,6 +108,7 @@ final _doctors = [
     isOnline: true,
     consultationDate: "22 MAr 2026",
     consultationTime: "08:00",
+    tags: ['nephrology'],
   ),
   DoctorModel(
     id: '6',
@@ -116,6 +127,7 @@ final _doctors = [
     isOnline: true,
     consultationDate: "30 MAr 2026",
     consultationTime: "14:00",
+    tags: ['kidney', 'urology'],
   ),
   DoctorModel(
   name: "Dr. Eleanor Pena",
@@ -134,6 +146,7 @@ final _doctors = [
     unreadCount: 2,
     isOnline: true, 
     id: '7',
+    tags: ['children', 'pediatrics'],
   )
 ];
 

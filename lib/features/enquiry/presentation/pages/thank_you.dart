@@ -19,6 +19,7 @@ class ThankyouScreen extends StatefulWidget {
 
 class _ThankyouScreenState extends State<ThankyouScreen> {
 
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -50,45 +51,52 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
 
                 /// Back Button
                 Positioned(
-                  top: 50,
+                  top: 30,
                   left: 8,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            icon: SvgPicture.asset("assets/icons/left arrow white.svg",
-                            width: 10,
-                            height: 10,),
-                            onPressed: () => Navigator.pop(context),
-                            color: AppColors.surface,
-                          ),
-                          const Text(
-                            "Back",
+                  child:Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.pop(context),
+                                // color: AppColors.surface,
+                                child: SvgPicture.asset("assets/icons/left arrow white.svg",
+                                width: 10,
+                                height: 10,),
+                              ),
+                              const Text(
+                            "  Back",
                             style: TextStyle(fontSize: 16, color: AppColors.surface),
                           ),
+                            
+                            ],
+                          ),
+                ),
+                          Positioned(
+                  top: 10,
+                  left: 90,
+                  child:
                           Image.asset(
                           'assets/images/Logo.png',
                           height: 60,
-                        ),
-                        ],
-                      ),
+                                                  ),
+                       
                 ),
 
                 /// Center Content
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children:  [
                     
-                    SizedBox(height: 80),
+                    SizedBox(height: height *0.1),
                     Text(
                       "Thank you!",
                       style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
                         color: AppColors.surface,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: height * 0.01),
                     Container(
                       width: 50,
                       height: 50,
@@ -108,12 +116,35 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Text(
-                      "Your visit has been successfully reserved, please pay for it to get an appointment with the selected doctor",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white70,
+                    SizedBox(height: height * 0.01),
+                    Center(
+                      child: Text(
+                        "Your visit has been successfully reserved,",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 17
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "please pay for it to get an appointment",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 17
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        "with the selected doctor",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 17
+                        ),
                       ),
                     ),
                   ],
@@ -129,7 +160,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(
                 horizontal: width * 0.06,
-                vertical: 20,
+                vertical: height * 0.02,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,23 +168,23 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
 
                   /// Doctor Tile
                   Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.shade200,
-                      blurRadius: 6)
-                ],
-              ),
-              child:  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // CircleAvatar(radius: 30),
-                  SizedBox(
-                        width: 50,
-                        height: 50,
+                    padding: const EdgeInsets.all(3),
+                    // decoration: BoxDecoration(
+                      
+                    //   borderRadius: BorderRadius.circular(16),
+                    //   boxShadow: [
+                    //     BoxShadow(
+                    //         color: Colors.grey.shade200,
+                    //         blurRadius: 6)
+                    //   ],
+                    // ),
+                    child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // CircleAvatar(radius: 30),
+                      SizedBox(
+                        width: 45,
+                        height: 45,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.asset(
@@ -170,9 +201,13 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                             CrossAxisAlignment.start,
                         children: [
                           Text(widget.doctor.name,
-                    style: TextStyle(
-                      fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                          Text(widget.doctor.department),
+                            style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.textPrimary
+                            )
+                          ),
+                          Text(widget.doctor.department,style: TextStyle(
+                              fontSize: 15,)
+                          ),
                         ],
                       ),
                     ),
@@ -200,7 +235,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
               ),
             ),
      
-                  const SizedBox(height: 20),
+                   SizedBox(height: height * 0.02),
 
                   /// Appointment Details
                   // _detailRow("Date", "24 Feb 2026"),
@@ -230,7 +265,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                         return Text(
                           formattedDate,
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: AppColors.textSecondary),
                               textAlign: TextAlign.left,
                         );
@@ -255,7 +290,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                          return Text(
                           time.selectedTimeSlot!,
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: AppColors.textSecondary),
                               textAlign: TextAlign.left,
                                              );
@@ -267,7 +302,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                   ),
 
 
-                  SizedBox(height: height * 0.05),
+                  SizedBox(height: height * 0.02),
                   // Location
                   const Text(
                       "Location: ",
@@ -305,6 +340,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                                 widget.doctor.location,
                                 style: TextStyle(
                                     color: AppColors.textSecondary,
+                                    fontSize: 13
                                     ),
                                     // softWrap: true,
                               ),
@@ -339,6 +375,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                               widget.doctor.hospital,
                               style: TextStyle(
                               color: AppColors.textSecondary,
+                              fontSize: 13,
                               ),
                               // softWrap: true,
                               ),
@@ -350,7 +387,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                       ],
 
                     ),
-                    SizedBox(height: height * 0.05),
+                    SizedBox(height: height * 0.02),
                   // Location
                   Row(
                     children: [
@@ -364,7 +401,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                         ),
                         Text('\$${widget.doctor.fee}',
                         style: TextStyle(
-                              fontSize: 26,
+                              fontSize: 24,
                               fontWeight: FontWeight.w800,
                               color: AppColors.textPrimary)
                         )
@@ -372,13 +409,13 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                   ),
 
 
-                  SizedBox(height: height * 0.04),
+                  SizedBox(height: height * 0.03),
 
                   /// Button
                   Center(
                     child: SizedBox(
                       width: width * 0.5,
-                      height: 50,
+                      height: height * 0.07,
                       child: ElevatedButton(
                         onPressed: () {
                           // Navigator.push(context, MaterialPageRoute(builder: (_) => PaymentScreen()));
@@ -389,7 +426,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                     ),
                   ),
 
-                   SizedBox(height: height * 0.006),
+                   SizedBox(height: height * 0.001),
 
                   Center(
                     child: TextButton(
@@ -399,7 +436,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                       child: Text("Cancel reservation",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.grey,
-                      fontSize: 16),)
+                      fontSize: 14),)
                     ),
                   )
                 ],
