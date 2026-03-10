@@ -1,5 +1,7 @@
+import 'package:country_picker/src/country.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:selfcare_mobileapp/features/auth/data/models/app_user.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/entities/user_role.dart';
 
 import '../entities/registration_entity.dart';
 
@@ -12,7 +14,11 @@ abstract class AuthRepository {
   Future<void> registerUser({
     required String email,
     required String password,
-    required String fullName,
+    required String fullName, 
+    required UserRole role, 
+    Gender? gender, 
+    DateTime? dateOfBirth, 
+    Country? location,
   });
   
   // Future<AppUser> registerPatient({

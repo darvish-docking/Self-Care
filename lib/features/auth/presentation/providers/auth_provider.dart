@@ -286,6 +286,10 @@ Country? _selectedCountry;
     notifyListeners();
 
     await _registerUserUseCase(
+        role: _selectedUserRole,
+        gender: _selectedGender,
+        dateOfBirth: selectedDob,
+        location: _selectedCountry,
         email: _email,
         password: _password,
         fullName: _fullName,

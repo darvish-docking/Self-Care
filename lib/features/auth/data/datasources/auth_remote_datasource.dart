@@ -1,5 +1,8 @@
+import 'package:country_picker/src/country.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:selfcare_mobileapp/features/auth/data/models/registration_dto.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/entities/user_role.dart';
 import '../models/app_user.dart';
 
 class AuthRemoteDatasource {
@@ -9,21 +12,25 @@ class AuthRemoteDatasource {
   AuthRemoteDatasource(this.auth, this.firestore);
 
 
-  Future<void> registerUser({
-    required String email,
-    required String password,
-    required String fullName,
-  }) async {
-    final credential = await auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  Future<void> registerUser(RegistrationDto dto) async {
 
-    await firestore.collection('users').doc(credential.user!.uid).set({
-      'name': fullName,
-      'email': email,
-    });
-  }
+  final credential = await auth.createUserWithEmailAndPassword(
+    email: dto.email,
+    password: dto.password,
+  );
+
+  final uid = credential.user!.uid;
+
+  await firestore.collection('users').doc(uid).set({
+    "id": uid,
+    "displayName": dto.name,
+    "email": dto.email,
+    "role": dto.role,
+    "gender": dto.gender,
+    "location": dto.location,
+    "dateOfBirth": dto.dob,
+  });
+}
 
   // Future<AppUser> registerPatient({
   //   required String email,

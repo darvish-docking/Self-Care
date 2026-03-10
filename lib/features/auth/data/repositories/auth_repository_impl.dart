@@ -1,6 +1,9 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:selfcare_mobileapp/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:selfcare_mobileapp/features/auth/data/models/app_user.dart';
+import 'package:selfcare_mobileapp/features/auth/data/models/registration_dto.dart';
 import 'package:selfcare_mobileapp/features/auth/domain/entities/registration_entity.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/entities/user_role.dart';
 import 'package:selfcare_mobileapp/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -10,15 +13,25 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> registerUser({
+    required UserRole role, 
+    Gender? gender, 
+    DateTime? dateOfBirth, 
+    Country? location,
     required String email,
     required String password,
     required String fullName,
   }) async {
-    await remoteDatasource.registerUser(
+    final dto = RegistrationDto(
+      role: role.name,
+      gender: gender?.name ?? '',
+      dob: dateOfBirth?.toIso8601String() ?? '',
+      name: fullName,
       email: email,
-      password: password,
-      fullName: fullName,
+      password: password, 
+      location: location?.displayName?? '',
     );
+
+    await remoteDatasource.registerUser(dto);
   }
 
   // @override
