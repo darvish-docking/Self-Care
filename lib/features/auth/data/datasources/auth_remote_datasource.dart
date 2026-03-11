@@ -2,6 +2,7 @@ import 'package:country_picker/src/country.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:selfcare_mobileapp/features/auth/data/models/registration_dto.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/entities/user.dart';
 import 'package:selfcare_mobileapp/features/auth/domain/entities/user_role.dart';
 import '../models/app_user.dart';
 
@@ -100,7 +101,7 @@ class AuthRemoteDatasource {
 
 
 
-  Future<AppUser> login({
+  Future<AppUser> loginUser({
     required String email,
     required String password,
   }) async {
@@ -119,6 +120,35 @@ class AuthRemoteDatasource {
 
     return AppUser.fromMap(doc.data()!);
   }
+
+
+
+
+
+
+Future<UserEntity?> getCurrentUser() async {
+  final user = auth.currentUser;
+
+  if (user == null) return null;
+
+  final doc = await firestore
+      .collection('users')
+      .doc(user.uid)
+      .get();
+
+  final data = doc.data();
+
+  return UserEntity(
+    id: user.uid,
+    email: user.email ?? '',
+    displayName: data?['displayName'] ?? '',
+    role: data?['role'] ?? '',
+  );
+}
+
+
+
+
 
   Future<void> logout() async {
     await auth.signOut();

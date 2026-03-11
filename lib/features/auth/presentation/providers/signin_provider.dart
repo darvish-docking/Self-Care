@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/usecases/login_user_usecase.dart';
 
 class SigninFormProvider extends ChangeNotifier {
+
+  final LoginUserUseCase loginUserUseCase;
+
+  SigninFormProvider(this.loginUserUseCase);
   // ------------------------
   // Fields
   // ------------------------
@@ -110,11 +115,31 @@ class SigninFormProvider extends ChangeNotifier {
     notifyListeners();
 
     // Simulate API call
-    await Future.delayed(const Duration(seconds: 2));
+    // await Future.delayed(const Duration(seconds: 2));
+
+    try {
+
+    await loginUserUseCase(
+      email: _email,
+      password: _password,
+    );
 
     _isLoading = false;
     notifyListeners();
 
-    return true; // success
+    return true;
+
+  } catch (e) {
+
+    _isLoading = false;
+    notifyListeners();
+
+    _passwordError = "Invalid email or password";
+    return false;
+  }
+
+    // _isLoading = false;
+    // notifyListeners();
+    // return true; // success
   }
 }

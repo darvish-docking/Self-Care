@@ -47,28 +47,28 @@ class OtpEnterPageState extends State<OtpEnterPage>{
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     
-    final role =
-    context.read<SignupFormProvider>().selectedUserRole;
+    // final role =
+    // context.read<SignupFormProvider>().selectedUserRole;
 
-    final gender =
-        context.read<SignupFormProvider>().selectedGender;
-    final dob =
-        context.read<SignupFormProvider>().selectedDob;
-    final location = context.read<SignupFormProvider>().selectedCountry;
+    // final gender =
+    //     context.read<SignupFormProvider>().selectedGender;
+    // final dob =
+    //     context.read<SignupFormProvider>().selectedDob;
+    // final location = context.read<SignupFormProvider>().selectedCountry;
 
-    final fullName = context.read<SignupFormProvider>().fullName;
-    final email = context.read<SignupFormProvider>().email;
-    final password = context.read<SignupFormProvider>().password;
+    // final fullName = context.read<SignupFormProvider>().fullName;
+    // final email = context.read<SignupFormProvider>().email;
+    // final password = context.read<SignupFormProvider>().password;
 
-final registration = RegistrationEntity(
-  role: role,
-  gender: gender!,
-  dob: dob!,
-  location: location!,
-  name: fullName,
-  email: email,
-  password: password,
-);
+// final registration = RegistrationEntity(
+//   role: role,
+//   gender: gender!,
+//   dob: dob!,
+//   location: location!,
+//   name: fullName,
+//   email: email,
+//   password: password,
+// );
 
     
     return Scaffold(
@@ -126,8 +126,7 @@ final registration = RegistrationEntity(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: List.generate(4, (index) {
-                                  return Consumer<OtpProvider>(
-                                    builder: (context, provider, _) {
+                                
                                       return OtpInputField(
                                         onChanged: (value) {
                                           provider.setDigit(index, value);
@@ -149,8 +148,7 @@ final registration = RegistrationEntity(
                                         focusNode: _focusNodes[index], 
                                         controller: _controllers[index],
                                       );
-                                    }
-                                  );
+                                    
                                     }
                                 ),
                               ),
@@ -158,8 +156,8 @@ final registration = RegistrationEntity(
                           
                           if (provider.showError) ...[
                              SizedBox(height: screenHeight * 0.01),
-                            const Text(
-                              "Please enter the 4-digit OTP",
+                             Text(
+                              provider.errorMessage!,
                               style: TextStyle(
                                 color: AppColors.error,
                                 fontSize: 14,

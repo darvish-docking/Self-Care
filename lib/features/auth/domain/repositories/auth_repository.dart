@@ -1,6 +1,6 @@
 import 'package:country_picker/src/country.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:selfcare_mobileapp/features/auth/data/models/app_user.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/entities/user.dart';
 import 'package:selfcare_mobileapp/features/auth/domain/entities/user_role.dart';
 
 import '../entities/registration_entity.dart';
@@ -33,10 +33,16 @@ abstract class AuthRepository {
   //   required String fullName,
   // });
 
-  Future<AppUser> login({
-    required String email,
-    required String password,
-  });
+
+
+  Future<void> loginUser({
+  required String email,
+  required String password,
+});
+
+
+Future<UserEntity?> getCurrentUser();
+
 
   Future<void> logout();
 }

@@ -3,7 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/usecases/get_current_user_usecase.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/usecases/login_user_usecase.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/otp_provider.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/providers/session_provider.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/signin_provider.dart';
 import 'package:selfcare_mobileapp/features/chat/presentation/providers/call_provider.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/providers/bookAppointment-provider.dart';
@@ -54,11 +57,26 @@ class AppProviders {
       ),
     ),
 
+    Provider<LoginUserUseCase>(   // ✅ ADD THIS
+      create: (context) => LoginUserUseCase(
+        context.read<AuthRepository>(),
+      ),
+    ),
+
+    Provider<GetCurrentUserUseCase>(
+      create: (context) => GetCurrentUserUseCase(
+        context.read<AuthRepository>(),
+      ),
+    ),
+
+
     ChangeNotifierProvider<SignupFormProvider>(create: (context) => SignupFormProvider(context.read<RegisterUserUseCase>(),)),
 
-    ChangeNotifierProvider<SigninFormProvider>(create: (_) => SigninFormProvider()),
+    ChangeNotifierProvider<SigninFormProvider>(create: (context) => SigninFormProvider(context.read<LoginUserUseCase>())),
   
     ChangeNotifierProvider<OtpProvider>(create: (_) => OtpProvider()),
+
+    ChangeNotifierProvider<SessionProvider>(create: (context) => SessionProvider(context.read<GetCurrentUserUseCase>(),),),
 
     ChangeNotifierProvider<AppointmentProvider>(create: (_) =>AppointmentProvider()),
 

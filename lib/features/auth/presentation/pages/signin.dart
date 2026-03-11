@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/pages/otp.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/pages/signup.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/providers/session_provider.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/signin_provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/pages/home.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/pages/main_screen.dart';
@@ -164,6 +165,9 @@ class _SignInForm extends StatelessWidget {
                 
                           final isSuccess = await provider.submit();
                 
+                          // 👇 Load logged-in user profile
+                          await context.read<SessionProvider>().loadUser();
+
                           if (isSuccess && context.mounted) {
                             // Navigator.pushReplacement(
                             //   context,

@@ -154,7 +154,7 @@ class LocationSection extends StatelessWidget {
             // const SizedBox(width: 6),
         
              Text(
-              loc.selectedCountry!.name,
+              loc.selectedCountry?.name ?? "Select location",
               style: const TextStyle(fontWeight: FontWeight.w500),
             ),
           ]);

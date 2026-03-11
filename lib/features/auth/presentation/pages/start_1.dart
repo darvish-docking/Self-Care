@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/core/theme/app_text_styles.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/pages/signin.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/pages/start_2.dart';
+import 'package:selfcare_mobileapp/features/home/presentation/pages/main_screen.dart';
 
 
 class StartPage1 extends StatefulWidget{
@@ -27,13 +30,34 @@ class _StartPage1State extends State<StartPage1> {
 
     if (!mounted) return;
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const StartPage2(),
-      ),
-    );
+
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+
+    if (firebaseUser != null) {
+
+      // User already logged in
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MainScreen(),
+        ),
+      );
+
+    } else {
+
+      // User not logged in
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SignInPage(),
+        ),
+      );
+    }
+
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {

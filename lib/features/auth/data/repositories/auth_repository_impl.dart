@@ -3,6 +3,7 @@ import 'package:selfcare_mobileapp/features/auth/data/datasources/auth_remote_da
 import 'package:selfcare_mobileapp/features/auth/data/models/app_user.dart';
 import 'package:selfcare_mobileapp/features/auth/data/models/registration_dto.dart';
 import 'package:selfcare_mobileapp/features/auth/domain/entities/registration_entity.dart';
+import 'package:selfcare_mobileapp/features/auth/domain/entities/user.dart';
 import 'package:selfcare_mobileapp/features/auth/domain/entities/user_role.dart';
 import 'package:selfcare_mobileapp/features/auth/domain/repositories/auth_repository.dart';
 
@@ -62,16 +63,36 @@ class AuthRepositoryImpl implements AuthRepository {
   //   );
   // }
 
+
   @override
-  Future<AppUser> login({
-    required String email,
-    required String password,
-  }) {
-    return remoteDatasource.login(
-      email: email,
-      password: password,
-    );
+Future<void> loginUser({
+  required String email,
+  required String password,
+}) async {
+  await remoteDatasource.loginUser(
+    email: email,
+    password: password,
+  );
+}
+
+  // @override
+  // Future<AppUser> login({
+  //   required String email,
+  //   required String password,
+  // }) {
+  //   return remoteDatasource.login(
+  //     email: email,
+  //     password: password,
+  //   );
+  // }
+
+
+
+  @override
+  Future<UserEntity?> getCurrentUser() async {
+    return await remoteDatasource.getCurrentUser();
   }
+
 
   @override
   Future<void> logout() {
