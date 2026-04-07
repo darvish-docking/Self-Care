@@ -17,10 +17,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => HomeProvider(),
-      child: const _MainScreenBody(),
-    );
+    return const _MainScreenBody();
   }
 }
 

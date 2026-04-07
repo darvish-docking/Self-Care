@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:selfcare_mobileapp/features/doctors/domain/entities/doctor.dart';
+import 'package:selfcare_mobileapp/features/doctors/domain/usecases/get_doctors.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/doctor_models.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/models/filter_tag_model.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/providers/data_provider.dart';
@@ -6,9 +8,20 @@ import 'package:selfcare_mobileapp/features/home/presentation/providers/data_pro
 
 class HomeProvider extends ChangeNotifier {
 
-  HomeProvider() {
-    print("DEBUG: HomeProvider constructor called");
+  final GetDoctors getDoctors;
+
+  HomeProvider(this.getDoctors);
+
+  List<Doctor> doctorList = [];
+
+  Future<void> loadDoctors() async {
+    doctorList = await getDoctors();
+    notifyListeners();
   }
+
+  // HomeProvider() {
+  //   print("DEBUG: HomeProvider constructor called");
+  // }
 
   DataProvider? _dataProvider;
 

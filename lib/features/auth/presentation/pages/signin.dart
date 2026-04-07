@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/pages/otp.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/pages/signup.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/pages/start_3.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/session_provider.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/signin_provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/pages/home.dart';
@@ -225,7 +226,7 @@ class _SignInForm extends StatelessWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => SignUpPage(),
+                                  builder: (_) => StartPage3(),
                                 ),
                               );
                             },

@@ -20,21 +20,36 @@ import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/usecases/register_user_usercases.dart';
 
+import '../../features/doctors/data/datasources/doctor_firebase_datasource.dart';
+import '../../features/doctors/data/repositories/doctor_repository_impl.dart';
+import '../../features/doctors/domain/repositories/doctor_repository.dart';
+import '../../features/doctors/domain/usecases/get_doctors.dart';
 
 class AppProviders {
 
   static List<SingleChildWidget> providers = [
 
+    /// ---------- DOCTOR DEPENDENCIES ----------
+    Provider<DoctorFirestoreDataSource>(
+      create: (_) => DoctorFirestoreDataSource(FirebaseFirestore.instance),
+    ),
+    Provider<DoctorRepository>(
+      create: (context) => DoctorRepositoryImpl(context.read<DoctorFirestoreDataSource>()),
+    ),
+    Provider<GetDoctors>(
+      create: (context) => GetDoctors(context.read<DoctorRepository>()),
+    ),
+
     ChangeNotifierProvider<DataProvider>(create: (_) => DataProvider(),),
 
     ChangeNotifierProvider<HomeProvider>(
-    create: (context) {
-      final dataProvider = context.read<DataProvider>();
-      final homeProvider = HomeProvider();
-      homeProvider.updateData(dataProvider);
-      return homeProvider;
-    },
-  ),
+      create: (context) {
+        final dataProvider = context.read<DataProvider>();
+        final homeProvider = HomeProvider(context.read<GetDoctors>());
+        homeProvider.updateData(dataProvider);
+        return homeProvider;
+      },
+    ),
 
 
   /// ---------- AUTH DEPENDENCIES ----------

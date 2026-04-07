@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:selfcare_mobileapp/core/providers/app_providers.dart';
 import 'package:selfcare_mobileapp/core/theme/app_colors.dart';
 import 'package:selfcare_mobileapp/features/auth/presentation/providers/auth_provider.dart';
+import 'package:selfcare_mobileapp/features/auth/presentation/providers/session_provider.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/book_appointment.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/doctor_one.dart';
 import 'package:selfcare_mobileapp/features/enquiry/presentation/pages/doctors.dart';
@@ -86,13 +87,13 @@ class HeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Consumer<SignupFormProvider>(
+    return Consumer<SessionProvider>(
       builder: (context, head, _) {
         return Row(
           children: [
              Expanded(
                child: Text(
-                "Welcome Back, ${head.fullName}!",
+                "Welcome Back, ${head.user?.displayName ?? ''}!",
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
