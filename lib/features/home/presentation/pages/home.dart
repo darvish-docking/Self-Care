@@ -14,7 +14,7 @@ import 'package:selfcare_mobileapp/features/home/presentation/models/filter_tag_
 import 'package:selfcare_mobileapp/features/home/presentation/providers/data_provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/providers/home-provider.dart';
 import 'package:selfcare_mobileapp/features/home/presentation/widgets/bottom_nav_bar.dart';
-
+import 'package:selfcare_mobileapp/core/services/firebase_messaging_service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -108,7 +108,9 @@ class HeaderSection extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await FirebaseMessagingService.showDummyNotification();
+                  },
                   icon: SvgPicture.asset(
                     'assets/icons/notification.svg',
                     width: 24,

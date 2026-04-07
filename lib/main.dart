@@ -5,6 +5,7 @@ import 'package:selfcare_mobileapp/core/providers/app_providers.dart';
 import 'package:selfcare_mobileapp/core/theme/app_theme.dart';
 import 'package:selfcare_mobileapp/features/auth/Presentation/pages/start_1.dart';
 import 'package:selfcare_mobileapp/firebase_options.dart';
+import 'package:selfcare_mobileapp/core/services/firebase_messaging_service.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +13,9 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Initialize Firebase Messaging
+  await FirebaseMessagingService.initialize();
 
   runApp(
     MultiProvider(
